@@ -1,16 +1,405 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe5 / stunde03 / info01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe5 / stunde03 / info01</h1>
-<p class="muted">Pfad: <code>bpe5/stunde03/info01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe5/stunde03/info01">https://beruflichegymnasium.pages.dev/bpe5/stunde03/info01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For-Schleife Visualisierung</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: black;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .intro {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .visualization-container {
+            /*display: flex;*/
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        @media (min-width: 768px) {
+            .visualization-container {
+                flex-direction: row;
+            }
+        }
+        
+        .loop-container {
+            flex: 1;
+            background-color: orange;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+        
+        .explanation-container {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            min-height: 200px;
+        }
+        
+        .for-loop {
+            background-color: #f8f9fa;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            position: relative;
+			
+        }
+        
+        .loop-header {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: black;
+        }
+        
+        .loop-body {
+            margin-left: 20px;
+			margin-top: 30px;
+            padding: 10px;
+            border: 2px solid black;
+			min-height: 100px;
+        }
+        
+        .step {
+			display:inline;
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .active {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .variable-display {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1976d2;
+        }
+        
+        button:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+        }
+        
+        .explanation {
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            min-height: 150px;
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            box-shadow: 0 0 0 2px #ffd54f;
+        }
+        
+        .step-counter {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>For-Schleife Visualisierung</h1>
+        <p>Verstehe den Ablauf einer For-Schleife Schritt für Schritt</p>
+    </header>
+    
+    <div class="intro">
+        <h2>Was ist eine For-Schleife?</h2>
+        <p>Eine For-Schleife ist eine Kontrollstruktur in der Programmierung, die es ermöglicht, einen Codeblock mehrmals auszuführen. Sie besteht aus drei Teilen:</p>
+        <ol style="margin-left: 40px;">
+            <li><strong>Initialisierung:</strong> Setzt die Schleifenvariable auf einen Startwert</li>
+            <li><strong>Bedingung:</strong> Überprüft, ob die Schleife weiterlaufen soll</li>
+            <li><strong>Inkrement:</strong> Verändert die Schleifenvariable nach jedem Durchlauf</li>
+        </ol>
+        <p>Verwende die Schaltflächen unten, um den Ablauf der For-Schleife Schritt für Schritt zu verfolgen.</p>
+    </div>
+    
+    <div class="step-counter">
+        Schritt: <span id="current-step">0</span> von <span id="total-steps">7</span>
+    </div>
+    
+    <div class="visualization-container">
+        <div class="loop-container">
+            <h3 style="color:green;">For-Schleife</h3>
+			
+            <div class="for-loop">
+                <div style="margin-bottom:0;" class="loop-header">
+				Wiederhole von <div id="step1" class="step step1"> i = 0</div> solange <div id="step2" class="step step2 step6">i < 3 </div> 
+				<br>
+				<br>
+				<span style=" margin:0;color: black; font-weight: bold;">Schrittweite 1 </span>
+				</div>
+				
+                <div class="loop-body" style="margin-bottom:20px; margin-top:0;padding-top:0;">
+				
+					<div style="padding-bottom:20px; margin:0;color: black; font-weight: bold;">Anweisungen:</div>
+					
+                    <div id="step3" class="step step3" style="font-weight:bold;border:1px solid black; background-color:lightblue;">
+					Kara: Bewege dich ein Feld vorwärts
+					</div>
+					
+                    <!--<div id="step4" class="step">console.log("Iteration: " + i);</div> -->
+                    <!--<div id="step5" class="step">// Inkrement: i++ (i wird um 1 erhöht)</div> -->
+                    <!--<div id="step6" class="step">// Zurück zur Bedingung</div>-->
+                    
+                </div>
+				 <div id="step5" class="step step5" style="font-weight:bold;">Die Schleifenvariable i wird jetzt um 1 erhöht (Inkrementierung)</div>
+            </div>
+            <div id="step7" class="step step7">Bedingung prüfen: i < 3 (false) → <span style="font-weight:bold;">Schleife wird beendet!</span></div> 
+            <div class="variable-display">
+                <strong>Aktueller Wert von i:</strong> <span id="i-value">-</span>
+            </div>
+            
+            <div class="controls">
+                <button id="prev-btn" disabled>Zurück</button>
+                <button id="next-btn">Weiter</button>
+                <button id="reset-btn">Zurücksetzen</button>
+            </div>
+        </div>
+        
+        <div class="explanation-container">
+            <h3>Erklärung</h3>
+            <div id="explanation" class="explanation">
+                Klicke auf "Weiter", um den Ablauf der For-Schleife zu starten.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = [
+                {
+                    element: 'step1',
+                    explanation: 'Die Schleifenvariable i wird mit dem Wert 0 initialisiert. Dies geschieht nur ein einziges Mal am Anfang der Schleife.',
+                    iValue: 0,
+                    highlight: 'step1'
+                },
+                {
+                    element: 'step2',
+                    explanation: 'Die Bedingung i < 3 wird geprüft. Da die Schleifenvariable i den Wert 0 hat und die Zahl 0 kleiner als die Zahl 3 ist, wird der Befehl "Kara: Bewege dich ein Feld vorwärts" im Block "Anweisungen"  ausgeführt.',
+                    iValue: 0,
+                    highlight: 'step2'
+                },
+                {
+                    element: 'step3',
+                    explanation: 'Da die Bedingung wahr ist, werden die Anweisungen im Schleifenkörper ausgeführt.',
+                    iValue: 0,
+                    highlight: 'step3'
+                },
+                /*{
+                    element: 'step4',
+                    explanation: 'Die Anweisung console.log("Iteration: " + i) wird ausgeführt. In der Konsole würde "Iteration: 0" erscheinen.',
+                    iValue: 0,
+                    highlight: 'step4'
+                },*/
+                {
+                    element: 'step5',
+                    explanation: 'Nach Ausführung des Schleifenkörpers wird die Schleifenvariable i um 1 erhöht (i++). Jetzt ist i=1.',
+                    iValue: 1,
+                    highlight: 'step5'
+                },
+                {
+                    element: 'step6',
+                    explanation: 'Die Schleife springt zurück zur Bedingungsprüfung.',
+                    iValue: 1,
+                    highlight: 'step6'
+                },
+                {
+                    element: 'step2',
+                    explanation: 'Die Bedingung i < 3 wird erneut geprüft. Da i=1 und 1 < 3 wahr ist, wird die Schleife erneut ausgeführt.',
+                    iValue: 1,
+                    highlight: 'step2'
+                },
+                {
+                    element: 'step3',
+                    explanation: 'Da die Bedingung wahr ist, werden die Anweisungen im Schleifenkörper erneut ausgeführt.',
+                    iValue: 1,
+                    highlight: 'step3'
+                },
+               /* {
+                    element: 'step4',
+                    explanation: 'Die Anweisung console.log("Iteration: " + i) wird ausgeführt. In der Konsole würde "Iteration: 1" erscheinen.',
+                    iValue: 1,
+                    highlight: 'step4'
+                },*/
+                {
+                    element: 'step5',
+                    explanation: 'Nach Ausführung des Schleifenkörpers wird die Schleifenvariable i um 1 erhöht (i++). Jetzt ist i=2.',
+                    iValue: 2,
+                    highlight: 'step5'
+                },
+                {
+                    element: 'step6',
+                    explanation: 'Die Schleife springt zurück zur Bedingungsprüfung.',
+                    iValue: 2,
+                    highlight: 'step6'
+                },
+                {
+                    element: 'step2',
+                    explanation: 'Die Bedingung i < 3 wird erneut geprüft. Da i=2 und 2 < 3 wahr ist, wird die Schleife erneut ausgeführt.',
+                    iValue: 2,
+                    highlight: 'step2'
+                },
+                {
+                    element: 'step3',
+                    explanation: 'Da die Bedingung wahr ist, werden die Anweisungen im Schleifenkörper erneut ausgeführt.',
+                    iValue: 2,
+                    highlight: 'step3'
+                },
+                /*{
+                    element: 'step4',
+                    explanation: 'Die Anweisung console.log("Iteration: " + i) wird ausgeführt. In der Konsole würde "Iteration: 2" erscheinen.',
+                    iValue: 2,
+                    highlight: 'step4'
+                },*/
+                {
+                    element: 'step5',
+                    explanation: 'Nach Ausführung des Schleifenkörpers wird die Schleifenvariable i um 1 erhöht (i++). Jetzt ist i=3.',
+                    iValue: 3,
+                    highlight: 'step5'
+                },
+                {
+                    element: 'step6',
+                    explanation: 'Die Schleife springt zurück zur Bedingungsprüfung.',
+                    iValue: 3,
+                    highlight: 'step6'
+                },
+                {
+                    element: 'step7',
+                    explanation: 'Die Bedingung i < 3 wird geprüft. Da i=3 und 3 < 3 falsch ist, wird die Schleife beendet. Das Programm fährt mit dem Code nach der Schleife fort.',
+                    iValue: 3,
+                    highlight: 'step7'
+                }
+            ];
+
+            let currentStep = 0;
+            const totalSteps = steps.length;
+            const explanationElement = document.getElementById('explanation');
+            const iValueElement = document.getElementById('i-value');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const currentStepElement = document.getElementById('current-step');
+            const totalStepsElement = document.getElementById('total-steps');
+
+            totalStepsElement.textContent = totalSteps;
+
+            function updateVisualization() {
+                // Zurücksetzen aller Hervorhebungen
+                document.querySelectorAll('.step').forEach(step => {
+                    step.classList.remove('active', 'highlight');
+                });
+
+                // Aktuellen Schritt hervorheben
+                if (currentStep >= 0 && currentStep < totalSteps) {
+                    const step = steps[currentStep];
+                    //const element = document.getElementById(step.element);
+                    const element = document.querySelectorAll(`.${step.element}`);
+					console.log(element)
+				   if (element) {
+						if(element.length > 0)
+						{
+							element[0].classList.add('active', 'highlight');
+						}
+                    }
+                    
+                    explanationElement.textContent = step.explanation;
+                    iValueElement.textContent = step.iValue;
+                    currentStepElement.textContent = currentStep + 1;
+                }
+
+                // Button-Status aktualisieren
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateVisualization();
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateVisualization();
+                }
+            });
+
+            resetBtn.addEventListener('click', function() {
+                currentStep = 0;
+                updateVisualization();
+            });
+
+            // Initialisierung
+            updateVisualization();
+        });
+    </script>
+</body>
+</html>
