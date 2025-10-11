@@ -1,16 +1,360 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe5 / stunde03 / info04</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe5 / stunde03 / info04</h1>
-<p class="muted">Pfad: <code>bpe5/stunde03/info04</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe5/stunde03/info04">https://beruflichegymnasium.pages.dev/bpe5/stunde03/info04</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>While-Schleife in Python – Kara-Sensoren richtig nutzen</title>
+  <style>
+    :root {
+      --primary:#2c3e50;
+      --secondary:#2196f3;
+      --accent:#ffd54f;
+      --light:#ffffff;
+      --dark:#0f172a;
+    }
+    *{ box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body{ background:#f5f7fa; color:#000; line-height:1.6; padding:20px; max-width:1200px; margin:0 auto; }
+    header{ text-align:center; margin-bottom:30px; padding-bottom:20px; border-bottom:1px solid #e1e4e8; }
+    h1{ color:var(--primary); margin-bottom:10px; }
+    h2, h3{ color:#1f2d3a; }
+    /* Info-/Intro-Panel */
+    .intro{ background:var(--light); padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,.05); margin-bottom:30px; }
+    .infobox{ background:#fff9c4; border-left:6px solid var(--accent); padding:12px; border-radius:6px; margin-top:12px; }
+    .visualization-container{ display:flex; flex-direction:column; gap:20px;  }
+    @media (min-width: 768px){ .visualization-container{ flex-direction:row; } }
+    .panel{ flex:1; background:var(--light); border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,.05); padding:20px; max-width:500px; }
+    .panel.orange{ background: #ffa94d33; }
+    .section{ margin-top:18px; font-size:0.8rem;}
+    /* Code-Block dunkel */
+    pre.code{ background:var(--dark); color:#e2e8f0; padding:16px; border-radius:8px; overflow:auto; }
+    code{ font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; }
+    /* Stepper / While-Box */
+    .while-box{ background:#f8f9fa; border:2px solid #e1e4e8; border-radius:8px; padding:15px; margin:20px 0; }
+    .loop-head{ font-weight:bold; margin-bottom:10px; }
+    .loop-body{ margin-left:20px; margin-top:10px; padding:10px; border:2px solid #000; min-height:110px; background:#fff; }
+    .step{ display:inline; padding:8px 12px; margin:5px 0; border-radius:4px; transition:all .3s ease; }
+    .active{ background:#e3f2fd; border-left:4px solid var(--secondary); }
+    .highlight{ background:#fff9c4; box-shadow:0 0 0 2px var(--accent); }
+    .controls{ display:flex; justify-content:center; gap:10px; margin-top:16px; }
+    button{ padding:10px 20px; background:var(--secondary); color:#fff; border:none; border-radius:12px; cursor:pointer; font-size:16px; transition:background-color .3s; }
+    button:hover{ background:#1976d2; }
+    button:disabled{ background:#bdbdbd; cursor:not-allowed; }
+    .status{ background:#e8f5e9; padding:10px; border-radius:6px; font-family:monospace; margin-top:10px; }
+    .step-counter{ text-align:center; margin:10px 0; font-weight:bold; color:#666; }
+    /* Vergleich / Hinweise */
+    .comparison{ display:block; gap:12px; }
+    @media(min-width:700px){ .comparison{ grid-template-columns:1fr 1fr; } }
+    .comparison-item{ background:#fff; border:1px solid #e1e4e8; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.04); padding:14px; }
+    .range-list{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .badge{ padding:6px 10px; border-radius:999px; border:1px solid #e1e4e8; background:#fff; font-size:12px; }
+    /* Generator UI */
+    .grid{ display:grid; gap:12px; }
+    @media(min-width:700px){ .grid.two{ grid-template-columns:1fr 1fr; } }
+    .field{ display:flex; flex-direction:column; gap:6px; }
+    select, input[type="text"]{ padding:10px; border:1px solid #d0d7de; border-radius:8px; background:#fff; }
+    .out{ background:#eef2ff; padding:10px; border-radius:8px; font-family:monospace; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>While-Schleife in Python</h1>
+    <p>Gymnasium Baden-Württemberg · Klasse 12  </p>
+  </header>
+
+  <!-- Intro / Didaktischer Rahmen -->
+  <div class="intro">
+    <h2>Vom Konzept zur Umsetzung</h2>
+    <p>Die Kara-Karte zeigt: <strong>Wiederhole solange (Bedingung)</strong> → <em>Anweisungen</em>. In Python schreiben wir das als
+      <code>while &lt;Bedingung&gt;:</code> gefolgt von eingerückten Anweisungen. Der kritische Punkt ist fast immer der
+      <strong>Schleifenkopf</strong> (also die Bedingung).</p>
+    <div class="infobox">
+      <strong>Merksatz:</strong> „Die Bedingung muss ein <em>boolescher Ausdruck</em> sein, der <code>True</code> oder <code>False</code> liefert.“
+      Kara-Sensoren liefern genau das – z. B. <code>kara.mushroomFront()</code> ist <code>True</code>, wenn Kara auf einem Blatt steht.     </div>
+
+    <div class="section">
+      <h3>Sensoren (als boolesche Funktionen)</h3>
+      <div class="range-list">
+        <span class="badge"><code>kara.treeFront()</code></span>
+        <span class="badge"><code>kara.treeRight()</code></span>
+        <span class="badge"><code>kara.treeLeft()</code></span>
+        <span class="badge"><code>kara.onLeaf()</code></span>
+        <span class="badge"><code>kara.mushroomFront()</code></span>
+      </div>
+      <p style="margin-top:8px">Diese Aufrufe müssen <em>mit Klammern</em> geschrieben werden, weil es Funktionen sind.</p>
+    </div>
+  </div>
+
+  <!-- Schritt-für-Schritt Visualisierung -->
+  <div class="step-counter">
+    Schritt: <span id="current-step">0</span> von <span id="total-steps">6</span>
+  </div>
+
+  <div class="visualization-container">
+    <!-- Linkes Panel: Visualisierung / Stepper -->
+    <div class="panel orange">
+      <h3>While-Schleife – geführter Ablauf</h3>
+      <div class="while-box">
+        <div class="loop-head">
+          Wiederhole <strong>solange</strong>
+          <div id="s1" class="step s1 s5"><code>kara.mushroomFront()</code></div>
+        </div>
+        <div class="loop-body">
+          <div style="font-weight:bold; margin-bottom:6px;">Anweisungen (nur bei <code>True</code>):</div>
+          <div id="s2" class="step s2" style="display:block; background:#d7ecff; border:1px solid #000;">
+            <code>kara.pickLeaf()</code>   <span style="opacity:.6"># Blatt aufnehmen (Beispiel)</span>
+          </div>
+          <div id="s3" class="step s3" style="display:block; margin-top:10px;">
+            <code>kara.move()</code>       <span style="opacity:.6"># ein Feld vorwärts</span>
+          </div>
+        </div>
+        <div id="s4" class="step s4" style="display:block; font-weight:bold; margin-top:6px;">
+          Zurück zur Bedingung → erneut prüfen
+        </div>
+      </div>
+
+      <div id="s6" class="step s6" style="display:block;">
+        Bedingung <em>False</em> → <strong>Schleife endet</strong> (Code nach der Schleife läuft weiter)
+      </div>
+
+      <div class="status">
+        <strong>Status:</strong>
+        <span>onLeaf() = <span id="leaf-status">True</span></span> |
+        Durchlauf # <span id="loop-count">0</span>
+      </div>
+
+      <div class="controls">
+        <button id="prev" disabled>Zurück</button>
+        <button id="next">Weiter</button>
+        <button id="reset">Zurücksetzen</button>
+      </div>
+    </div>
+
+    <!-- Rechtes Panel: Erklärung + Generator -->
+    <div class="panel">
+      <h3><span style="color:green;">Erklärung</span> </h3>
+      <div id="explain" class="section" style=" font-size:1rem;color:green;">
+        Klicke auf <em>Weiter</em>, um zu sehen, wie Python vor jedem Durchlauf die Bedingung auswertet. Ist
+        <code>kara.onLeaf()</code> <code>True</code>, laufen die Anweisungen. Nach dem Körper springt Python zurück und
+        prüft die Bedingung erneut.
+      </div>
+
+      <div class="section">
+        <h4>Python-Grundform</h4>
+        <pre class="code"><code>while &lt;Bedingung&gt;:
+    # Schleifenrumpf (eingerückt, z. B. 4 Leerzeichen)
+# Code nach der Schleife</code></pre>
+      </div>
+
+      <div class="section">
+        <h4>Direkte Übersetzung der Karte</h4>
+        <pre class="code"><code># Karte: "Prüfe, ob du auf einem Blatt stehst!"
+while kara.mushroomFront(): # &larr; Schleifenkopf (True/False)
+    kara.pickLeaf()         # &larr; Schleifenrumpf (Beispiel)
+    kara.move()
+# Hier geht es weiter, wenn kein Blatt mehr unter Kara liegt</code></pre>
+      </div>
+
+      <div class="section comparison">
+        <div class="comparison-item">
+          <strong>Variante A (positiv gedacht)</strong>
+          <pre class="code"><code>while kara.mushroomFront():
+    # tue etwas, solange ein Pilz im Feld vor Kara steht</code></pre>
+          <ul style="margin-left:18px; margin-top:8px">
+            <li>„Solange <em>Pilz da</em> ist, arbeite…“</li>
+            
+          </ul>
+        </div>
+        <div class="comparison-item">
+          <strong>Variante B (negativ gedacht)</strong>
+          <pre class="code"><code>while not kara.mushroomFront():
+    # laufe, bis du einen Pilz erreichst</code></pre>
+          <ul style="margin-left:18px; margin-top:8px">
+            <li>„Solange <em>kein</em> Pilz da ist…“</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Häufige Fehler im Schleifenkopf</h4>
+        <ul style="margin-left:20px">
+          <li><strong>Klammern vergessen:</strong> <code>kara.onLeaf</code>  ist <em>falsch</em> – korrekt: <code>kara.onLeaf()</code>.</li>
+          <li><strong>Doppelpunkt vergessen:</strong> <code>while kara.onLeaf()</code> ❌ → <code>while kara.onLeaf():</code> ✅</li>
+          <li><strong>Einrückung fehlt (4 Leerzeichen!):</strong> Der Rumpf muss eingerückt sein, sonst <em>IndentationError</em>.</li>
+          <li><strong>Zustand nicht änderbar:</strong> Wenn der Rumpf die Position von Kara nicht verändert, kann die Schleife endlos laufen.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3 style="font-size:1.2rem; color:green;"> Hilfe? 🚑 -> Condition-Generator (Bedingung zusammenklicken)</h3>
+        <div class="grid two">
+          <div class="field">
+            <label for="sensor">Sensor</label>
+            <select id="sensor">
+              <option>kara.onLeaf()</option>
+              <option>kara.treeFront()</option>
+              <option>kara.treeRight()</option>
+              <option>kara.treeLeft()</option>
+              <option>kara.mushroomFront()</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="negation">Negation</label>
+            <select id="negation">
+              <option value="none">keine</option>
+              <option value="not">not …</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="op">Logischer Operator (optional)</label>
+            <select id="op">
+              <option value="none">—</option>
+              <option value="and">and</option>
+              <option value="or">or</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sensor2">Zweiter Sensor (optional)</label>
+            <select id="sensor2">
+              <option>—</option>
+              <option>kara.onLeaf()</option>
+              <option>kara.treeFront()</option>
+              <option>kara.treeRight()</option>
+              <option>kara.treeLeft()</option>
+              <option>kara.mushroomFront()</option>
+            </select>
+          </div>
+        </div>
+        <div class="section out" id="condOut">while kara.onLeaf():</div>
+        <pre class="code" id="fullWhile"><code>while kara.onLeaf():
+    kara.pickLeaf()
+    kara.move()</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -------- Stepper-Logik (linkes Panel) --------
+    document.addEventListener('DOMContentLoaded', function(){
+      let onLeaf = true;     // Startzustand: Kara steht auf einem Blatt
+      let loopCount = 0;
+
+      const steps = [
+        { element:'s1',
+          text:'Python prüft zuerst die Bedingung: kara.mushroomFront(). Ist sie True, betritt Kara den Schleifenrumpf.',
+          effect: null
+        },
+        { element:'s2',
+          text:'Anweisung 1: kara.pickLeaf() – der Zustand ändert sich (Blatt wird entfernt).',
+          effect: () => { onLeaf = false; }
+        },
+        { element:'s3',
+          text:'Anweisung 2: kara.move() – Kara läuft ein Feld weiter.',
+          effect: () => { onLeaf = Math.random() < 0.4; }
+        },
+        { element:'s4',
+          text:'Zurück zur Bedingung: Ist jetzt wieder ein Pilz im Feld vor Kara? Falls ja → nächster Durchlauf.',
+          effect: () => { loopCount++; }
+        },
+        { element:'s1',
+          text:'Erneute Prüfung von kara.mushroomFront().',
+          effect: null
+        },
+        { element:'s6',
+          text:'Bedingung ist False → Die While-Schleife endet, der nachfolgende Code läuft weiter.',
+          effect: null
+        }
+      ];
+
+      const totalSteps = steps.length;
+      let idx = 0;
+
+      const explain = document.getElementById('explain');
+      const leafStatus = document.getElementById('leaf-status');
+      const loopNr = document.getElementById('loop-count');
+      const totalEl = document.getElementById('total-steps');
+      const currentEl = document.getElementById('current-step');
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+      const reset = document.getElementById('reset');
+
+      totalEl.textContent = totalSteps;
+
+      function highlight(cls){
+        document.querySelectorAll('.step').forEach(s=>s.classList.remove('active','highlight'));
+        const el = document.querySelector('.' + cls);
+        if(el) el.classList.add('active','highlight');
+      }
+
+      function render(){
+        const step = steps[idx];
+        highlight(step.element);
+        explain.textContent = step.text;
+        leafStatus.textContent = onLeaf ? 'True' : 'False';
+        loopNr.textContent = String(loopCount);
+        currentEl.textContent = String(idx + 1);
+        prev.disabled = (idx === 0);
+        next.disabled = (idx === totalSteps - 1);
+      }
+
+      function applyEffect(){
+        const step = steps[idx];
+        if(typeof step.effect === 'function') step.effect();
+      }
+
+      prev.addEventListener('click', ()=>{ if(idx>0){ idx--; render(); }});
+      next.addEventListener('click', ()=>{ if(idx<totalSteps-1){ applyEffect(); idx++; render(); }});
+      reset.addEventListener('click', ()=>{
+        onLeaf = true; loopCount = 0; idx = 0; render();
+      });
+
+      render();
+
+      // -------- Condition-Generator (rechtes Panel) --------
+      const sensor = document.getElementById('sensor');
+      const neg = document.getElementById('negation');
+      const op = document.getElementById('op');
+      const sensor2 = document.getElementById('sensor2');
+      const condOut = document.getElementById('condOut');
+      const fullWhile = document.getElementById('fullWhile');
+
+      function buildCond(){
+        const s1 = sensor.value;
+        const n = neg.value;
+        const o = op.value;
+        const s2 = sensor2.value;
+
+        function maybeNeg(s, nflag){
+          if(nflag === 'not'){ return 'not ' + s; }
+          return s;
+        }
+        let cond = maybeNeg(s1, n);
+
+        if(o !== 'none' && s2 !== '—'){
+          cond = cond + ' ' + o + ' ' + s2;
+        }
+
+        condOut.textContent = 'while ' + cond + ':';
+
+        // Beispielrumpf automatisch anpassen:
+        let body = '';
+        if (cond.includes('onLeaf()') && !cond.includes('not')){
+          body = '    kara.pickLeaf()\n    kara.move()';
+        } else if (cond.includes('onLeaf()') && cond.includes('not')){
+          body = '    kara.move()  # laufe, bis du ein Blatt erreichst';
+        } else if (cond.includes('treeFront()') && !cond.includes('not')){
+          body = '    kara.turnLeft()  # weiche aus\n    kara.move()';
+        } else if (cond.includes('mushroomFront()')){
+          body = '    kara.turnRight()\n    kara.move()';
+        } else {
+          body = '    # TODO: passende Aktion\n    kara.move()';
+        }
+
+        fullWhile.textContent = 'while ' + cond + ':\n' + body;
+      }
+
+      [sensor, neg, op, sensor2].forEach(el=>el.addEventListener('change', buildCond));
+      buildCond();
+    });
+  </script>
+</body>
+</html>
