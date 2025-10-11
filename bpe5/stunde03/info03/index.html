@@ -1,16 +1,293 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe5 / stunde03 / info03</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe5 / stunde03 / info03</h1>
-<p class="muted">Pfad: <code>bpe5/stunde03/info03</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe5/stunde03/info03">https://beruflichegymnasium.pages.dev/bpe5/stunde03/info03</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>While-Schleife – Kara: Prüf ob Baum vor dir steht!</title>
+  <style>
+    /* ===== Grundlayout (hell, zentriert, Panels) – analog zu deinem For-Template ===== */
+    :root{
+      --primary:#2c3e50;
+      --secondary:#2196f3;
+      --accent:#ffd54f;
+      --light:#ffffff;
+      --dark:#000000;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+    body{background:#f5f7fa;color:#000;line-height:1.6;padding:20px;max-width:1200px;margin:0 auto}
+    header{text-align:center;margin-bottom:30px;padding-bottom:20px;border-bottom:1px solid #e1e4e8}
+    h1{color:var(--primary);margin-bottom:10px}
+    /* Intro / Info-Box */
+    .intro{background:var(--light);padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:30px}
+    .intro p + ul{margin-top:10px}
+    .infobox{background:#fff9c4;border-left:6px solid var(--accent);padding:12px;border-radius:6px;margin-top:12px}
+    /* Container-Panels */
+    .visualization-container{display:flex;flex-direction:column;gap:20px}
+    @media(min-width:768px){.visualization-container{flex-direction:row}}
+    .loop-container{flex:1;background:#ffa94d33;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:20px}
+    .explanation-container{flex:1;background:var(--light);border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:20px;min-height:200px}
+    /* While-Block */
+    .while-loop{background:#f8f9fa;border:2px solid #e1e4e8;border-radius:8px;padding:15px;margin:20px 0;position:relative}
+    .loop-header{font-weight:bold;margin-bottom:10px;color:#000}
+    .loop-body{margin-left:20px;margin-top:20px;padding:10px;border:2px solid #000;min-height:110px;background:#fff}
+    .step{display:inline;padding:8px 12px;margin:5px 0;border-radius:4px;transition:all .3s ease}
+    .active{background:#e3f2fd;border-left:4px solid var(--secondary)}
+    .highlight{background:#fff9c4;box-shadow:0 0 0 2px var(--accent)}
+    .variable-display{background:#e8f5e9;padding:10px;border-radius:4px;margin:10px 0;font-family:monospace}
+    .controls{display:flex;justify-content:center;gap:10px;margin-top:20px}
+    button{padding:10px 20px;background:var(--secondary);color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:16px;transition:background-color .3s}
+    button:hover{background:#1976d2}
+    button:disabled{background:#bdbdbd;cursor:not-allowed}
+    .explanation{padding:15px;border-radius:4px;background:#f8f9fa;min-height:160px}
+    .step-counter{text-align:center;margin:10px 0;font-weight:bold;color:#666}
+    /* Code-Block (dunkler Hintergrund) */
+    pre.code{background:#0f172a;color:#e2e8f0;padding:16px;border-radius:8px;overflow:auto;margin-top:14px}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    /* Vergleichssektion */
+    .comparison{display:grid;gap:12px;margin-top:16px}
+    @media(min-width:700px){.comparison{grid-template-columns:1fr 1fr}}
+    .comparison-item{background:#fff;border:1px solid #e1e4e8;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.04);padding:14px}
+    /* Mini-Range / Statusliste */
+    .range-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .badge{padding:6px 10px;border-radius:999px;border:1px solid #e1e4e8;background:#fff;font-size:12px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>While-Schleife Visualisierung</h1>
+    <p>„Wiederhole <em>solange</em> die Bedingung wahr ist“ – am Beispiel: <strong>Kara: Prüf ob Baum vor dir steht!</strong></p>
+  </header>
+
+  <div class="intro">
+    <h2>Was ist eine While-Schleife?</h2>
+    <p>Das englische Wort <strong>"While"</strong> bedeutet im Deutschen: <strong>so lange wie...</strong>, <strong>während...</strong><br>
+	Eine <strong>While-Schleife</strong> ist eine Kontrollstruktur, die einen Block von Anweisungen <strong>so lange</strong> wiederholt, wie eine
+       <strong>Bedingung</strong> den Wert <em>wahr</em> liefert. Ist die Bedingung <em>falsch</em>, endet die Schleife und das Programm macht danach weiter.</p>
+    <ul style="margin-left:22px">
+      <li><strong>Bedingung zuerst:</strong> Vor jedem Durchlauf wird geprüft.</li>
+      <li><strong>Schleifenkörper:</strong> Wird nur ausgeführt, falls die Bedingung wahr ist.</li>
+      <li><strong>Rücksprung:</strong> Nach dem Körper geht es direkt zurück zur Bedingung.</li>
+    </ul>
+    <div class="infobox">
+      Merksatz: <em>„Wiederhole solange (Bedingung) → Anweisungen.“</em> Genau so sind Kara-Aufgabenkarten aufgebaut (Ja/Nein-Karte für die Bedingung).
+    </div>
+    <pre class="code"><code>// Pseudocode (Kara)
+while  (Kara: Prüf ob Baum vor dir steht!) {
+    // Anweisungen, z. B. ausweichen oder drehen
+    Kara: Drehe dich nach links
+}</code></pre>
+  </div>
+
+  <div class="step-counter">
+    Schritt: <span id="current-step">0</span> von <span id="total-steps">8</span>
+  </div>
+
+  <div class="visualization-container">
+    <div class="loop-container">
+      <h3 style="color:green;">While-Schleife</h3>
+
+      <div class="while-loop">
+        <div class="loop-header" style="margin-bottom:0;">
+          Wiederhole <strong>solange</strong>
+          <div id="wstep1" class="step wstep1 wstep5">Kara: Prüf ob Baum vor dir steht!</div>
+        </div>
+
+        <div class="loop-body" style="margin-bottom:20px;margin-top:10px;padding-top:10px;">
+          <div style="padding-bottom:8px;margin:0;color:#000;font-weight:bold;">Anweisungen (nur wenn Bedingung wahr ist):</div>
+
+          <!-- Wähle hier eine sinnvolle Kara-Aktion, die die Situation verändert -->
+          <div id="wstep2" class="step wstep2" style="font-weight:bold;border:1px solid #000;background:#d7ecff;">
+            Kara: Drehe dich nach links
+          </div>
+
+          <div id="wstep3" class="step wstep3" style="display:block;margin-top:10px;">
+            Kara: Bewege dich ein Feld vorwärts
+          </div>
+        </div>
+
+        <div id="wstep4" class="step wstep4" style="display:block;font-weight:bold;">
+          Zurück zur Bedingung → erneut prüfen
+        </div>
+      </div>
+
+      <div id="wstep8" class="step wstep8" style="display:block;">
+        Bedingung prüfen: <em>falsch</em> → <strong>Schleife wird beendet!</strong>
+      </div>
+
+      <div class="variable-display">
+        <strong>Status:</strong>
+        <!-- Bedingung = <span id="cond-value">-</span> | -->
+        Aktueller Schleifen-Durchlauf # <span id="loop-count">0</span>
+      </div>
+
+      <div class="controls">
+        <button id="prev-btn" disabled>Zurück</button>
+        <button id="next-btn">Weiter</button>
+        <button id="reset-btn">Zurücksetzen</button>
+      </div>
+    </div>
+
+    <div class="explanation-container">
+      <h3>Erklärung</h3>
+      <div id="explanation" class="explanation">
+        Klicke auf „Weiter“, um den Ablauf der While-Schleife zu starten.
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      /*
+        Wir simulieren die Umgebung so:
+        - Start: Baum voraus = true
+        - Nach jedem Durchlauf "dreht" Kara sich und bewegt sich (vereinfacht),
+          wodurch die Situation sich ändert. Nach 3 sinnvollen Aktionen ist kein Baum mehr voraus.
+      */
+      let treesAhead = 3; // 3 "Situationen" mit Baum voraus; nach 3 Aktionen ist frei
+      let loopCount = 0;
+
+      const steps = [
+        // 0
+        {
+          element:'wstep1',
+          explanation:'Start der While-Schleife: Zuerst wird die Bedingung geprüft: „Kara: Prüf ob Baum vor dir steht!“. Ist ein Baum voraus, ist die Bedingung WAHR – sonst FALSCH.',
+          cond: () => treesAhead > 0
+        },
+        // 1
+        {
+          element:'wstep2',
+          explanation:'Bedingung ist wahr → Kara führt die Anweisungen aus. Beispiel: „Drehe dich nach links“, um der Blockade auszuweichen.',
+          action: () => { /* nur Erklärungsschritt */ }
+        },
+        // 2
+        {
+          element:'wstep3',
+          explanation:'Befehl: „Bewege dich ein Feld vorwärts“ – dadurch verändert Kara die Lage in der Welt.',
+          action: () => { /* optional */ }
+        },
+        // 3
+        {
+          element:'wstep4',
+          explanation:'Nach dem Schleifenkörper springt die While-Schleife zurück zur Bedingungsprüfung.',
+          action: () => {
+            loopCount++;
+            if (treesAhead > 0) treesAhead--; // Situation wird „freier“
+          }
+        },
+        // 4
+        {
+          element:'wstep1',
+          explanation:'Erneute Prüfung: Steht noch ein Baum vor Kara? Falls ja → wiederhole die Anweisungen. Falls nein → beende die Schleife.',
+          cond: () => treesAhead > 0
+        },
+        // 5
+        {
+          element:'wstep2',
+          explanation:'Bedingung weiterhin wahr → Anweisungen erneut ausführen (Drehen/Ausweichen).',
+          action: () => {}
+        },
+        // 6
+        {
+          element:'wstep4',
+          explanation:'Zurück zur Bedingung – die Lage hat sich erneut verändert.',
+          action: () => {
+            loopCount++;
+            if (treesAhead > 0) treesAhead--;
+          }
+        },
+        // 7
+        {
+          element:'wstep8',
+          explanation:'Bedingung jetzt falsch (kein Baum mehr voraus) → Die While-Schleife wird beendet. Das Programm fährt nach der Schleife fort.',
+          cond: () => treesAhead <= 0
+        }
+      ];
+
+      const totalSteps = steps.length;
+      let currentStep = 0;
+
+      const explanationEl = document.getElementById('explanation');
+      /*const condEl = document.getElementById('cond-value');*/
+      const loopCountEl = document.getElementById('loop-count');
+      const badgeEnv = document.getElementById('badge-env');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const currentStepEl = document.getElementById('current-step');
+      const totalStepsEl = document.getElementById('total-steps');
+      totalStepsEl.textContent = totalSteps;
+
+      function setActive(selector){
+        document.querySelectorAll('.step').forEach(s=>s.classList.remove('active','highlight'));
+        const els = document.querySelectorAll('.' + selector);
+        if (els && els.length) els[0].classList.add('active','highlight');
+      }
+
+      function updateBadges(){
+        const cond = treesAhead > 0;
+        /*condEl.textContent = cond ? 'wahr' : 'falsch';*/
+        loopCountEl.textContent = String(loopCount);
+        badgeEnv.textContent = 'Umgebung: Baum voraus = ' + (cond ? 'Ja' : 'Nein');
+      }
+
+      function applyStepSideEffects(stepIdx, direction){
+        const step = steps[stepIdx];
+        // Bei Vorwärtsgang erst die Action ausführen, dann anzeigen
+        if (direction === 'forward' && typeof step.action === 'function'){
+          step.action();
+        }
+        if (direction === 'backward' && typeof step.action === 'function'){
+          // Für Einfachheit wird Rückgang nicht „undo“-genau simuliert.
+          // Fokus liegt auf dem Ablaufkonzept der While-Schleife.
+        }
+      }
+
+      function update(){
+        const step = steps[currentStep];
+        // Anzeige
+        setActive(step.element);
+        explanationEl.textContent = step.explanation;
+
+        // Bedingungsanzeige
+      /*  if (typeof step.cond === 'function'){
+          condEl.textContent = step.cond() ? 'wahr' : 'falsch';
+        } else {
+          condEl.textContent = (treesAhead > 0) ? 'wahr' : 'falsch';
+        } */
+        updateBadges();
+
+        // Step-Zähler + Buttons
+        currentStepEl.textContent = String(currentStep + 1);
+        prevBtn.disabled = currentStep === 0;
+        nextBtn.disabled = currentStep === totalSteps - 1;
+      }
+
+      prevBtn.addEventListener('click', ()=>{
+        if (currentStep > 0){
+          currentStep--;
+          update();
+        }
+      });
+
+      nextBtn.addEventListener('click', ()=>{
+        if (currentStep < totalSteps - 1){
+          applyStepSideEffects(currentStep, 'forward');
+          currentStep++;
+          update();
+        }
+      });
+
+      resetBtn.addEventListener('click', ()=>{
+        treesAhead = 3;
+        loopCount = 0;
+        currentStep = 0;
+        update();
+      });
+
+      // Initial
+      update();
+    });
+  </script>
+</body>
+</html>
