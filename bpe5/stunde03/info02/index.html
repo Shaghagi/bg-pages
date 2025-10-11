@@ -1,16 +1,394 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe5 / stunde03 / info02</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe5 / stunde03 / info02</h1>
-<p class="muted">Pfad: <code>bpe5/stunde03/info02</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe5/stunde03/info02">https://beruflichegymnasium.pages.dev/bpe5/stunde03/info02</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For-Schleife in Python</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 20px 0 10px;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .comparison-item {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .visualization {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .range-list {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .range-item {
+            width: 50px;
+            height: 50px;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .range-item.active {
+            background-color: var(--accent);
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+        }
+        
+        .code-line {
+            margin: 10px 0;
+            padding: 8px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .highlight {
+            background-color: #fffacd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+            margin: 10px 5px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                flex-direction: column;
+            }
+            
+            .comparison-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>For-Schleife in Python</h1>
+        <p>Von der konzeptionellen Ebene zur praktischen Umsetzung</p>
+    </header>
+    
+    <div class="container">
+        <h2>Einführung</h2>
+        <p>Nachdem wir die konzeptionelle Ebene der For-Schleife besprochen haben, wollen wir uns nun mit der praktischen Umsetzung in Python beschäftigen. Die meisten Probleme treten beim Verständnis des Schleifenkopfs auf, insbesondere bei der Übersetzung von Konzepten wie "Wiederhole von i = 0 solange i kleiner gleich 2" in Python-Syntax.</p>
+        
+        <div class="info-box">
+            <p><strong>Wichtig:</strong> In Python wird die For-Schleife anders implementiert als in vielen anderen Programmiersprachen. Statt einer Bedingung verwenden wir die <span class="highlight">range()</span>-Funktion, die eine Zahlenfolge erzeugt.</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Der Schleifenkopf in Python</h2>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h3>Konzeptionelle Ebene</h3>
+                <p style="font-weight:bold;">"Wiederhole von i = 0 solange i kleiner gleich 2"</p>
+                <p>Dies entspricht:</p>
+                <ul style="padding-left:20px;">
+                    <li><span style="color:#4fc3f7;">Startwert</span>: i = <span style="font-weight: bold; color:#4fc3f7;">0</span></li>
+                    <li>Bedingung: i <span style="font-weight:bold;color:#81c784;">≤ 2</span></li>
+                    <li>Schrittweite: 1 (Standardfall: ist immer voreingestellt)</li>
+                </ul>
+            </div>
+            
+            <div class="comparison-item">
+                <h3>Python-Umsetzung</h3>
+                
+                <div class="code-block"># Unbedingt den <span style="font-weight:bold;color:red;">Hinweis</span> lesen!!!
+# range(3) erzeugt die Zahlenfolge: <span style="color:#4fc3f7;">0</span>,1,<span style="color:#81c784;">2</span>
+
+for i in range(3): 
+    # Anweisungen</div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <p><strong style="color:red;">Hinweis:</strong> Die <strong>range()</strong>-Funktion in Python erzeugt eine Zahlenfolge von <strong>Start</strong> bis <strong>Ende - 1</strong>. 
+			Daher müssen wir bei der Bedingung "i ≤ 2" als Endwert 3 angeben. Dann erzeugt range() genau die Zahlenfolge: 0,1,2
+			</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Die range()-Funktion verstehen</h2>
+        <p>Die range()-Funktion erzeugt eine Sequenz von Zahlen, über die die For-Schleife iteriert. Dies ist der Schlüssel zum Verständnis von For-Schleifen in Python.</p>
+        
+        <div class="visualization">
+            <h3>Visualisierung: range(5)</h3>
+            <p>Die Funktion <span class="highlight">range(5)</span> erzeugt folgende Zahlenliste:</p>
+            
+            <div class="range-list" id="rangeList">
+                <!-- Wird durch JavaScript gefüllt -->
+            </div>
+            
+            <p>Die Schleifenvariable <span class="highlight">i</span> durchläuft nacheinander alle Werte dieser Liste.</p>
+            
+            <div class="controls">
+                <button id="prevBtn">Zurück</button>
+                <button id="nextBtn">Weiter</button>
+                <button id="resetBtn">Zurücksetzen</button>
+            </div>
+            
+            <div class="code-line" id="currentCode">
+                # Klicke auf "Weiter", um die Iteration zu sehen
+            </div>
+        </div>
+        
+        <h3>Varianten der range()-Funktion</h3>
+        
+        <div class="comparison">
+            <div class="comparison-item">
+                <h4>range(stop)</h4>
+                <p>Erzeugt Zahlen von 0 bis stop-1</p>
+                <div class="code-block">for i in range(5):
+    print(i)
+# Ausgabe: 0, 1, 2, 3, 4</div>
+            </div>
+            
+            <div class="comparison-item">
+                <h4>range(start, stop)</h4>
+                <p>Erzeugt Zahlen von start bis stop-1</p>
+                <div class="code-block">for i in range(2, 6):
+    print(i)
+# Ausgabe: 2, 3, 4, 5</div>
+            </div>
+            
+            <div class="comparison-item">
+                <h4>range(start, stop, step)</h4>
+                <p>Erzeugt Zahlen von start bis stop-1 mit Schrittweite step</p>
+                <div class="code-block">for i in range(0, 10, 2):
+    print(i)
+# Ausgabe: 0, 2, 4, 6, 8</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Vollständiges Beispiel</h2>
+        <p>Hier ist ein vollständiges Beispiel einer For-Schleife in Python:</p>
+        
+        <div class="code-block"># Schleife von 0 bis 4
+for i in range(5):
+    print(f"Die aktuelle Zahl ist: {i}")
+    print(f"Das Quadrat von {i} ist: {i*i}")
+    
+print("Schleife beendet!")</div>
+        
+        <p>Ausgabe:</p>
+        <div class="code-block">Die aktuelle Zahl ist: 0
+Das Quadrat von 0 ist: 0
+Die aktuelle Zahl ist: 1
+Das Quadrat von 1 ist: 1
+Die aktuelle Zahl ist: 2
+Das Quadrat von 2 ist: 4
+Die aktuelle Zahl ist: 3
+Das Quadrat von 3 ist: 9
+Die aktuelle Zahl ist: 4
+Das Quadrat von 4 ist: 16
+Schleife beendet!</div>
+    </div>
+    
+    
+    <footer>
+        <p>Fachdidaktik Informatik - For-Schleife in Python</p>
+        <p>Gymnasium Baden-Württemberg - Klasse 12</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rangeList = document.getElementById('rangeList');
+            const currentCode = document.getElementById('currentCode');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            const rangeValues = [0, 1, 2, 3, 4];
+            let currentIndex = -1;
+            
+            // Erstelle die visuelle Darstellung der Range-Liste
+            rangeValues.forEach((value, index) => {
+                const item = document.createElement('div');
+                item.className = 'range-item';
+                item.textContent = value;
+                item.id = `rangeItem${index}`;
+                rangeList.appendChild(item);
+            });
+            
+            // Funktion zum Aktualisieren der Visualisierung
+            function updateVisualization() {
+                // Entferne aktive Klasse von allen Elementen
+                document.querySelectorAll('.range-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Setze aktive Klasse auf aktuelles Element
+                if (currentIndex >= 0 && currentIndex < rangeValues.length) {
+                    document.getElementById(`rangeItem${currentIndex}`).classList.add('active');
+                    
+                    // Aktualisiere den Code
+                    currentCode.textContent = `for i in range(5):  # i = ${rangeValues[currentIndex]}`;
+                } else if (currentIndex === rangeValues.length) {
+                    currentCode.textContent = '# Schleife beendet!';
+                } else {
+                    currentCode.textContent = '# Klicke auf "Weiter", um die Iteration zu sehen';
+                }
+                
+                // Aktiviere/Deaktiviere Buttons
+                prevBtn.disabled = currentIndex <= 0;
+                nextBtn.disabled = currentIndex >= rangeValues.length;
+            }
+            
+            // Event-Listener für Buttons
+            nextBtn.addEventListener('click', function() {
+                if (currentIndex < rangeValues.length) {
+                    currentIndex++;
+                    updateVisualization();
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateVisualization();
+                }
+            });
+            
+            resetBtn.addEventListener('click', function() {
+                currentIndex = -1;
+                updateVisualization();
+            });
+            
+            // Initialisiere die Visualisierung
+            updateVisualization();
+        });
+    </script>
+</body>
+</html>
