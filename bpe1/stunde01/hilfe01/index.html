@@ -1,16 +1,267 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe1 / stunde01 / hilfe01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe1 / stunde01 / hilfe01</h1>
-<p class="muted">Pfad: <code>bpe1/stunde01/hilfe01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe1/stunde01/hilfe01">https://beruflichegymnasium.pages.dev/bpe1/stunde01/hilfe01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personenmerkmale analysieren - Aylin Demir</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --light: #f9f9f9;
+            --dark: #333;
+            --gray: #95a5a6;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 20px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        h3 {
+            color: var(--secondary);
+            margin: 15px 0 10px;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        
+        .person-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .person-image {
+            flex: 1;
+            min-width: 300px;
+            background-color: #e0e7ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .person-details {
+            flex: 2;
+            min-width: 300px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .attributes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .attribute-category {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .attribute-list {
+            list-style-type: none;
+        }
+        
+        .attribute-list li {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background-color: var(--light);
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .attribute-list li:hover {
+            background-color: #e8f4fc;
+            transform: translateX(5px);
+        }
+        
+        .attribute-list li.selected {
+            background-color: #d4edda;
+            border-left-color: var(--secondary);
+        }
+        
+        .analysis-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .selected-attributes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .attribute-tag {
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .attribute-tag .remove {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .hint-section {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .person-info {
+                flex-direction: column;
+            }
+            
+            .attributes-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Personenmerkmale analysieren</h1>
+        <p>Lerne, wie du Personen anhand ihrer Merkmale identifizieren kannst</p>
+    </header>
+    
+    <section class="intro">
+        <h2>Aufgabenstellung</h2>
+        <p>Du hast ein Bild von Aylin Demir (27 Jahre) erhalten. Deine Aufgabe ist es, 
+		Merkmale zu identifizieren, die sie von anderen Personen unterscheiden. 
+		</p>
+
+    </section>
+    
+    <section class="person-info">
+        <div class="person-image">
+            <div style="text-align: center;">
+                <div style="width: 200px; height: 250px; background-color: #bdc3c7; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <img 
+					src="https://i.ibb.co/5hKNjstp/aylin-Demir.png"
+					alt="Aylin Demir, 27 Jahre" 
+					style="width: auto; height: 80%; border-radius: 8px;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="person-details">
+            <h2>Strukturierte Merkmalsanalyse</h2>
+            <p style="font-weight:bold;">Gehe bei der Analyse systematisch vor:</p>
+            <ol style="margin-left:15px;">
+                <li><strong>Merkmal</strong> ist eine Eigenschaft der Person, z. B. Haare, Haarfarbe, Hautafarbe, Größe, etc.</li>
+                <li><strong>Merkmalsausprägung</strong> ist der Wert, der zum Merkmal dazugehört, z. B. keine, braun, blond, 1,75m, etc.</li>
+				<li>Beginne mit den offensichtlichsten Merkmalen wie Geschlecht, Alter, Haarfarbe</li>
+                <li>Überlege, welche Merkmale besonders charakteristisch und unterscheidungskräftig sind, sodass man am Ende jede Person voneinander unterscheiden
+				kann</li>
+            </ol>
+            
+            <div class="hint-section">
+                <p><strong>Tipp:</strong> 
+				Ein passendes Merkmal wäre hier: <strong>Haare</strong> mit der Merkmalsausprägung: <strong>keine</strong>. Weitere Merkmale könnten sein: Hautfarbe, Größe, etc.
+				Die passenden Merkmalsausprägungen darfst du dir überlegen.
+				</p>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>
