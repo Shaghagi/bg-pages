@@ -1,16 +1,348 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe7 / stunde01 / info01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe7 / stunde01 / info01</h1>
-<p class="muted">Pfad: <code>bpe7/stunde01/info01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe7/stunde01/info01">https://beruflichegymnasium.pages.dev/bpe7/stunde01/info01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arrays – Informationsmaterial (Informatik)</title>
+  <style>
+    /* === Theme Variables (light template) === */
+    :root {
+      --primary: #1f6feb;   /* headings, emphasis */
+      --secondary: #7f8ea3; /* muted text */
+      --accent: #f59e0b;    /* highlights, badges */
+      --light: #f7f9fc;     /* page background */
+      --dark: #0f172a;      /* text on dark bg */
+
+      --surface: #ffffff;
+      --border: #e5e7eb;
+      --code-bg: #0b1220;   /* dark code block */
+      --code-text: #e5e7eb;
+      --shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+      --radius-xl: 1rem; /* ~16px */
+    }
+
+    /* === Base === */
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: #0b1220;
+      background: linear-gradient(180deg, var(--light), #ffffff 50%);
+      line-height: 1.6;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* === Layout === */
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    header.hero {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 32px 20px 8px;
+    }
+
+    .hero .badge {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: rgba(31, 111, 235, 0.08);
+      color: var(--primary);
+      border: 1px solid rgba(31,111,235,.15);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .title {
+      margin: 12px 0 6px;
+      font-size: clamp(28px, 3.6vw, 40px);
+      line-height: 1.2;
+      color: #0b1220;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .subtitle { color: var(--secondary); margin: 0 0 16px; }
+
+    /* Navigation controls */
+    .nav-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 8px auto 24px;
+    }
+    .nav-controls a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      border-radius: 999px;
+      font-weight: 600;
+      color: #0b1220;
+    }
+    .nav-controls a span.key {
+      font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: #eef2ff;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+
+    /* Panels */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: clamp(16px, 2.5vw, 24px);
+      margin: 16px 0;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: clamp(20px, 2.6vw, 28px);
+      line-height: 1.25;
+      color: var(--primary);
+    }
+
+    .panel h3 { margin: 16px 0 8px; font-size: 18px; }
+
+    /* Info box */
+    .info-box {
+      border-left: 6px solid var(--accent);
+      background: linear-gradient(90deg, rgba(245,158,11,0.08), transparent);
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+    .info-box strong { color: #92400e; }
+
+    /* Code block */
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 16px;
+      border-radius: 14px;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 10px 24px rgba(2, 6, 23, 0.35);
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 14px; }
+
+    /* Array visualizations */
+    .array-viz {
+      margin: 16px 0;
+      display: grid;
+      gap: 8px;
+    }
+    .range-list {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+    .range-list .cell {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      text-align: center;
+      padding: 10px 8px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 4px;
+    }
+    .range-list .index {
+      font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: var(--secondary);
+    }
+    .range-list .value {
+      font-weight: 700;
+      color: #0b1220;
+    }
+
+    /* Footer note */
+    footer { color: var(--secondary); text-align: center; padding: 24px 0 40px; }
+
+    @media (max-width: 760px) {
+      .range-list { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <span class="badge">J2 · BPE 7 · Algorithmen & Datenstrukturen</span>
+      <h1 class="title">Manipulation der Elemente eines Arrays</h1>
+      <p class="subtitle">Informationsmaterial · Fach: Informatik</p>
+    </header>
+
+
+    <!-- 1. Einführung -->
+    <section id="einfuehrung" class="panel">
+      <h2>Was sind Arrays?</h2>
+      <p>Arrays sind spezielle Datenstrukturen, die nicht nur einen Wert, sondern eine Vielzahl von Werten speichern können. Man kann sich ein Array wie einen Schrank mit <em>Schubladen</em> vorstellen. Jede Schublade bietet Platz für einen Wert (z.&nbsp;B. Vornamen) und trägt eine <strong>Nummer</strong>, über die man den Inhalt gezielt wiederfindet.</p>
+
+      <div class="info-box">
+        <p><strong>Wichtig:</strong></p>
+        <ul>
+          <li>Die Nummerierung der Schubladen heißt in der Fachsprache <strong>Index</strong>. Die Speicherplätze sind also <em>indiziert</em>.</li>
+          <li>Die Nummerierung beginnt bei <strong>0</strong>. Die erste Schublade hat den Index 0, die zweite 1, die sechste 5.</li>
+        </ul>
+      </div>
+
+      <h3>Beispiel: „Schrank“ für Vornamen</h3>
+      <div class="array-viz" role="figure" aria-label="Array mit sechs Schubladen (0–5)">
+        <div class="range-list" aria-hidden="true">
+          <div class="cell"><div class="index">Index 0</div><div class="value">Uli</div></div>
+          <div class="cell"><div class="index">Index 1</div><div class="value">Anna</div></div>
+          <div class="cell"><div class="index">Index 2</div><div class="value">Emil</div></div>
+          <div class="cell"><div class="index">Index 3</div><div class="value">Sophia</div></div>
+          <div class="cell"><div class="index">Index 4</div><div class="value">Luise</div></div>
+          <div class="cell"><div class="index">Index 5</div><div class="value">Hans</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Deklaration & Initialisierung -->
+    <section id="deklaration" class="panel">
+      <h2>Deklaration &amp; Initialisierung in Python</h2>
+      <p>In Python werden Arrays mit <strong>Listen</strong> umgesetzt. <strong>Deklaration</strong> bedeutet, einen Bezeichner anzulegen (z.&nbsp;B. <code>namensliste</code>). <strong>Initialisierung</strong> bedeutet, dieser Variablen direkt Startwerte zuzuweisen.</p>
+      <div class="info-box">
+        <p><strong>Wann getrennt, wann zusammen?</strong> <em>Getrennt</em> (erst deklarieren, dann füllen) eignet sich, wenn die Werte erst zur Laufzeit bekannt werden oder schrittweise entstehen. <em>Zusammen</em> (Deklaration <u>und</u> Initialisierung) ist effizient, wenn die Startwerte bereits feststehen.</p>
+        <p><strong><code>append()</code></strong> ist eine eingebaute Listen‑Methode. Aufruf: <code>liste.append(wert)</code>. Sie hängt den <em>wert</em> am Ende an und vergrößert die Liste um 1 Element.</p>
+      </div>
+
+      <!-- Untereinander statt nebeneinander -->
+      <h3>Möglichkeit&nbsp;1: Deklaration und Initialisierung</h3>
+      <pre><code class="language-python"># Deklaration und Initialisierung
+namensliste = ["Uli", "Anna", "Emil", "Sophia"]
+
+#index:        0      1       2       3 
+# Ergebnis: ["Uli", "Anna", "Emil", "Sophia"]</code></pre>
+
+      <h3>Möglichkeit&nbsp;2: erst Deklaration (leeres Array), danach (im Laufe des Programms) mit Werten füllen</h3>
+      <pre><code class="language-python"># Deklaration (leeres Array)
+namensliste = []
+
+# Zuweisung mit append()
+namensliste.append("Uli")
+namensliste.append("Anna")
+namensliste.append("Emil")
+namensliste.append("Sophia")
+
+#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;
+# Ergebnis: ["Uli", "Anna", "Emil", "Sophia"]</code></pre>
+    </section>
+
+    <!-- 4. Hinzufügen & Verändern -->
+    <section id="aendern" class="panel">
+      <h2>Hinzufügen und Verändern von Elementen</h2>
+      <p>Python-Listen sind nicht abschließend: 
+	  Mit <code>append()</code> kannst du im weiteren Programmablauf  Elemente am Ende hinzufügen. Append() zählt den Index automatisch +1 nach oben!
+	  <br>
+	  Vorhandene Werte können per <strong>Zuweisung</strong>, z. B. namensliste[2] = "Lorenz"  überschrieben werden (Beispiel 3).
+	  </p>
+      <pre><code class="language-python">namensliste = ["Uli", "Anna", "Emil", "Sophia"]
+
+# Verändern des ersten Wertes
+#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3
+namensliste[0] = "Ulli"           # ["Ulli", "Anna", "Emil", "Sophia"]
+
+# Hinzufügen am Ende
+#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4
+namensliste.append("Mara")         # ["Ulli", "Anna", "Emil", "Sophia", "Mara"]
+
+# Beispiel 3: Verändern des dritten Wertes
+#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4
+namensliste[2] = "Lorenz"          # ["Ulli", "Anna", "Lorenz", "Sophia", "Mara"]
+
+</code></pre>
+    
+	
+	</section>
+
+    <!-- 3. Zugriff über Index -->
+    <section id="zugriff-index" class="panel">
+      <h2>Zugriff auf Array-Werte mit dem Index</h2>
+      <p>Auf einzelne Elemente greift man mit dem <code>[Index]</code> zu, z.B. <code>array[3]</code> liefert das letzte Element am Index 3 (hier: Sophia).
+	  <br> <span style="font-weight:bold;color:red;" >Achtung!</span> 
+	  Das <strong>erste</strong> Element hat den Index <strong>0</strong>, das letzte den Index 
+	  <code style="font-weight:bold;font-size:1rem;">n&nbsp;&minus;&nbsp;1</code>, hier z. B. (<strong>4</strong>&nbsp; -&nbsp; 1 = 3).
+	  <br>Im unteren Beispiel ist n = 4, weil wir Menschen bei 1 das zählen anfangen und nicht wie die Maschine bei 0.</p>
+      <pre><code class="language-python">#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;
+namensliste = ["Uli", "Anna", "Emil", "Sophia"]
+
+print(namensliste[3])  # Ausgabe: Sophia
+print(namensliste[0])  # Ausgabe: Uli</code></pre>
+    </section>
+
+
+
+    <!-- 5. Länge eines Arrays -->
+    <section id="laenge" class="panel">
+      <h2>Anzahl der Elemente (Länge) ermitteln</h2>
+      <p>Die Anzahl der Elemente eines Arrays/ einer Liste erhält man mit <code>len(array)</code>.
+	  <br>
+	  <strong style="color:red;">Achtung!</strong> len(array) beginnt bei 1 das Zählen - so wie wir Menschen!
+	  </p>
+      <pre><code class="language-python">#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;
+namensliste = ["Uli", "Anna", "Emil", "Sophia"]
+
+anzahl = len(namensliste)
+print("Anzahl Namen:", anzahl)   # Ausgabe: Anzahl Namen: 4</code></pre>
+      <div class="info-box"><strong>Hinweis:</strong> Statt „Anzahl der Elemente eines Arrays“ wird oft die Formulierung <em>„Länge des Arrays“</em> verwendet.</div>
+    </section>
+
+<!-- 6. Ausgabe mit for-Schleife -->
+<section id="for-schleife" class="panel">
+<h2>Zugriff auf alle Elemente mit einer <code style="font-size:2rem;color:green;">for</code>-Schleife – zum <em>Lesen</em> und <em>Schreiben</em></h2>
+
+
+<h3>Beispiel 1: Lesender Zugriff (Werte nur ausgeben)</h3>
+<p>Die Schleife liest nacheinander jedes Element und gibt es aus. Die Liste selbst wird dabei nicht verändert.</p>
+<pre><code class="language-python">#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;
+namensliste = ["Uli", "Anna", "Emil", "Sophia"]
+
+# Hinweis: Schleifenvariable i nimmt folgende Werte an: 0 , 1, 2, 3. 
+for i in range(len(namensliste)): 
+print(namensliste[i])
+
+# Ausgabe:
+# Uli
+# Anna
+# Emil
+# Sophia</code></pre>
+
+
+<h3>Beispiel 2: Schreibender Zugriff (Werte verändern)</h3>
+<p>Die Schleife nutzt die Indizes, um die Elemente gezielt zu überschreiben. Unten wird an jeden Index der Name "Anton" geschrieben.</p>
+<pre><code class="language-python">#index: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;
+namensliste = ["Uli", "Anna", "Emil", "Sophia"]
+
+# Hinweis: Schleifenvariable i nimmt folgende Werte an: 0 , 1, 2, 3. 
+for i in range(len(namensliste)):
+namensliste[i] = "Anton"
+
+
+print(namensliste)
+# Ergebnis: ["Anton", "Anton", "Anton", "Anton"]</code></pre>
+
+
+<p>Vorteil: Auch bei 10&nbsp;000 Elementen bleibt das Programm gleich kurz – die Schleife übernimmt die vollständige Verarbeitung aller Elemente.</p>
+</section>
+
+    <footer>
+      © Unterrichtsmaterial ·  Arrays · Informatik
+    </footer>
+  </div>
+</body>
+</html>
