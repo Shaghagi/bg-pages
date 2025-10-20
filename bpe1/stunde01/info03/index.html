@@ -1,16 +1,380 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe1 / stunde01 / info03</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe1 / stunde01 / info03</h1>
-<p class="muted">Pfad: <code>bpe1/stunde01/info03</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe1/stunde01/info03">https://beruflichegymnasium.pages.dev/bpe1/stunde01/info03</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel-Formel Simulation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #217346 0%, #26a269 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 16px;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .excel-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .excel-table th {
+            background-color: #e6e6e6;
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #d0d0d0;
+            font-weight: 600;
+        }
+        
+        .excel-table td {
+            padding: 12px 15px;
+            border: 1px solid #d0d0d0;
+            transition: all 0.3s ease;
+        }
+        
+        .excel-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .excel-table tr:hover td {
+            background-color: #f0f8ff;
+        }
+        
+        .cell-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            padding: 5px;
+        }
+        
+        .cell-input:focus {
+            outline: 2px solid #4d90fe;
+            background-color: white;
+        }
+        
+        .formula-cell {
+            background-color: #e6f7ff;
+            font-family: 'Consolas', monospace;
+            color: #0078d4;
+        }
+        
+        .highlight {
+            animation: highlight 2s ease;
+            background-color: #fff4ce;
+        }
+        
+        @keyframes highlight {
+            0% { background-color: #fff4ce; }
+            100% { background-color: transparent; }
+        }
+        
+        .visualization {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .visualization h3 {
+            margin-bottom: 15px;
+            color: #217346;
+        }
+        
+        .formula-display {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-family: 'Consolas', monospace;
+            border-left: 4px solid #0078d4;
+        }
+        
+        .calculation-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .step-number {
+            background-color: #0078d4;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .explanation {
+            flex: 1;
+        }
+        
+        .result {
+            font-weight: bold;
+            color: #217346;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #217346;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+            
+            .excel-table {
+                font-size: 14px;
+            }
+            
+            .step {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Excel-Formel Simulation</h1>
+            <p class="description">Visualisierung der Formelberechnung wie in Excel - Perfekt für den Unterrichtseinsatz</p>
+        </header>
+        
+        <table class="excel-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%">Produkt</th>
+                    <th style="width: 20%">Preis (€)</th>
+                    <th style="width: 20%">Anzahl</th>
+                    <th style="width: 40%">Gesamt (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Apfel</td>
+                    <td><input type="number" class="cell-input" id="price1" value="2" min="0" step="0.1"></td>
+                    <td><input type="number" class="cell-input" id="quantity1" value="3" min="0"></td>
+                    <td class="formula-cell" id="total1">6.00 €</td>
+                </tr>
+                <tr>
+                    <td>Birne</td>
+                    <td><input type="number" class="cell-input" id="price2" value="4" min="0" step="0.1"></td>
+                    <td><input type="number" class="cell-input" id="quantity2" value="2" min="0"></td>
+                    <td class="formula-cell" id="total2">8.00 €</td>
+                </tr>
+                <tr>
+                    <td>Kirsche</td>
+                    <td><input type="number" class="cell-input" id="price3" value="5" min="0" step="0.1"></td>
+                    <td><input type="number" class="cell-input" id="quantity3" value="6" min="0"></td>
+                    <td class="formula-cell" id="total3">30.00 €</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="visualization">
+            <h3>Formelberechnung visualisiert</h3>
+            <div class="formula-display" id="formulaDisplay">
+                Wählen Sie eine Zelle in der Gesamt-Spalte aus, um die Berechnung zu sehen.
+            </div>
+            
+            <div class="calculation-steps" id="calculationSteps">
+                <!-- Hier werden die Berechnungsschritte dynamisch eingefügt -->
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>So funktioniert's:</h3>
+            <ul>
+                <li>Ändern Sie die Werte in den Preis- oder Anzahl-Feldern und beobachten Sie, wie sich die Gesamtsumme automatisch aktualisiert.</li>
+                <li>Klicken Sie auf eine Zelle in der Gesamt-Spalte, um die detaillierte Berechnung der Formel zu sehen.</li>
+                <li>Die Simulation zeigt, wie Excel Zellbezüge (wie B2, C2) verwendet, um Berechnungen durchzuführen.</li>
+            </ul>
+            <p>Diese Visualisierung hilft dabei, das Prinzip von Tabellenkalkulationen und Formeln besser zu verstehen.</p>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Erstellt für den Unterricht in der 11. Klasse | Excel-Formel Simulation</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Zellen-Elemente
+            const priceCells = [
+                document.getElementById('price1'),
+                document.getElementById('price2'),
+                document.getElementById('price3')
+            ];
+            
+            const quantityCells = [
+                document.getElementById('quantity1'),
+                document.getElementById('quantity2'),
+                document.getElementById('quantity3')
+            ];
+            
+            const totalCells = [
+                document.getElementById('total1'),
+                document.getElementById('total2'),
+                document.getElementById('total3')
+            ];
+            
+            const formulaDisplay = document.getElementById('formulaDisplay');
+            const calculationSteps = document.getElementById('calculationSteps');
+            
+            // Event-Listener für Input-Felder
+            priceCells.forEach(cell => {
+                cell.addEventListener('input', updateCalculations);
+            });
+            
+            quantityCells.forEach(cell => {
+                cell.addEventListener('input', updateCalculations);
+            });
+            
+            // Event-Listener für Gesamt-Zellen (um Formel anzuzeigen)
+            totalCells.forEach((cell, index) => {
+                cell.addEventListener('click', () => {
+                    showFormulaCalculation(index);
+                });
+            });
+            
+            // Initialberechnung
+            updateCalculations();
+            
+            // Funktion zur Aktualisierung aller Berechnungen
+            function updateCalculations() {
+                for (let i = 0; i < 3; i++) {
+                    const price = parseFloat(priceCells[i].value) || 0;
+                    const quantity = parseInt(quantityCells[i].value) || 0;
+                    const total = price * quantity;
+                    
+                    totalCells[i].textContent = total.toFixed(2) + ' €';
+                }
+            }
+            
+            // Funktion zur Anzeige der Formelberechnung
+            function showFormulaCalculation(index) {
+                const price = parseFloat(priceCells[index].value) || 0;
+                const quantity = parseInt(quantityCells[index].value) || 0;
+                const total = price * quantity;
+                
+                // Excel-Zellenreferenzen (B2, C2, etc.)
+                const priceCellRef = `B${index + 2}`;
+                const quantityCellRef = `C${index + 2}`;
+                const totalCellRef = `D${index + 2}`;
+                
+                // Formel anzeigen
+                formulaDisplay.textContent = `In Zelle ${totalCellRef}: =${priceCellRef}*${quantityCellRef}`;
+                
+                // Berechnungsschritte anzeigen
+                calculationSteps.innerHTML = `
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="explanation">Formel <strong>=${priceCellRef}*${quantityCellRef}</strong> wird ausgewertet</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="explanation">Wert aus Zelle ${priceCellRef} (Preis): <span class="result">${price.toFixed(2)} €</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="explanation">Wert aus Zelle ${quantityCellRef} (Anzahl): <span class="result">${quantity}</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="explanation">Berechnung: <span class="result">${price.toFixed(2)} € × ${quantity}</span></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="explanation">Ergebnis in Zelle ${totalCellRef}: <span class="result">${total.toFixed(2)} €</span></div>
+                    </div>
+                `;
+                
+                // Hervorhebungs-Animation
+                priceCells[index].classList.add('highlight');
+                quantityCells[index].classList.add('highlight');
+                totalCells[index].classList.add('highlight');
+                
+                setTimeout(() => {
+                    priceCells[index].classList.remove('highlight');
+                    quantityCells[index].classList.remove('highlight');
+                    totalCells[index].classList.remove('highlight');
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
