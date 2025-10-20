@@ -1,16 +1,258 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe1 / stunde01 / info01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe1 / stunde01 / info01</h1>
-<p class="muted">Pfad: <code>bpe1/stunde01/info01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe1/stunde01/info01">https://beruflichegymnasium.pages.dev/bpe1/stunde01/info01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reale Welt → digitales Modell – Mit Attributen arbeiten</title>
+  <meta name="description" content="Moderne, minimalistische, responsive & druckfreundliche Einführung: Wie wir Gegenstände mit Attributen digital modellieren. Beispiele aus Ernährung und Psychologie. Bootstrap‑ähnlicher Stil in Google‑Farben." />
+  <style>
+    :root {
+      /* Google‑Farben */
+      --g-blue: #4285F4;
+      --g-red: #DB4437;
+      --g-yellow: #F4B400;
+      --g-green: #0F9D58;
+      /* Grundfarben */
+      --bg: #ffffff;
+      --fg: #0a0a0a;
+      --muted: #525252;
+      --border: #e5e7eb;
+      --accent: var(--g-blue);
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.65;
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Bootstrap-ähnliches Layout */
+    .container { max-width: 980px; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    .row { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 768px) { .row.cols-2 { grid-template-columns: 1fr 1fr; } }
+
+    header { padding: 1.25rem 0 .5rem; border-bottom: 1px solid var(--border); background: #fff; position: sticky; top: 0; z-index: 40; }
+    .brand h1 { font-size: 2rem; line-height: 1.2; margin:0; }
+    .lead { font-size: 1.05rem; color: var(--muted); margin: 0 0 .8rem; }
+    .gbar { display: grid; grid-template-columns: repeat(4, 1fr); height: 6px; border-radius: 6px; overflow: hidden; }
+    .gbar span:nth-child(1){ background: var(--g-blue); }
+    .gbar span:nth-child(2){ background: var(--g-red); }
+    .gbar span:nth-child(3){ background: var(--g-yellow); }
+    .gbar span:nth-child(4){ background: var(--g-green); }
+
+    h2 { font-size: clamp(1.25rem, 3vw, 1.7rem); margin: 1.8rem 0 .6rem; }
+    h3 { font-size: 1.15rem; margin: 1.1rem 0 .4rem; }
+
+    /* Cards/Utilities im Bootstrap‑Stil */
+    .card { border: 1px solid var(--border); border-radius: .75rem; padding: 1rem 1.1rem; box-shadow: 0 .25rem .75rem rgba(0,0,0,.06); background: #fff; }
+    .muted { color: var(--muted); }
+    .small { font-size: .92rem; }
+    .badge { display: inline-block; font-size: .75rem; padding: .2rem .55rem; border-radius: 999px; border: 1px solid var(--border); }
+    .badge.blue { border-color: var(--g-blue); }
+    .badge.red { border-color: var(--g-red); }
+    .badge.yellow { border-color: var(--g-yellow); }
+    .badge.green { border-color: var(--g-green); }
+
+    /* Tabellen */
+    .table-wrap { overflow: auto; border: 1px solid var(--border); border-radius: .75rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .97rem; }
+    th, td { padding: .6rem .7rem; border-bottom: 1px solid var(--border); text-align: left; }
+    thead th { position: sticky; top: 0; background: #fafafa; }
+    td.num, th.num { text-align: right; }
+
+    /* Code/Listen */
+    code { background: #f6f8fa; padding: .14rem .34rem; border-radius: .375rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    ul { padding-left: 1.2rem; }
+    li { margin: .35rem 0; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+    /* Visuell zusammenhängender Bereich für die Beispiele */
+    .example-block { position: relative; background: #f8fafc; border: 1px solid var(--border); border-radius: 1rem; padding: 1rem 1.25rem; }
+    .example-block::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 10px; border-radius: 1rem 0 0 1rem; background: linear-gradient(180deg, var(--g-blue), var(--g-red), var(--g-yellow), var(--g-green)); }
+
+    /* Druck (schwarz/weiß) */
+    @media print {
+      * { box-shadow: none !important; text-shadow: none !important; }
+      body { color: #000; background: #fff; }
+      header { border-bottom: 1px solid #000; position: static; }
+      .gbar span { background: #000 !important; }
+      .card, .table-wrap, .example-block { border: 1px solid #000; background: #fff; }
+      .example-block::before { background: #000; }
+      a { color: #000; text-decoration: underline; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container brand">
+      <h1>Reale Welt → digitales Modell: Mit <strong>Attributen</strong> arbeiten</h1>
+      <div class="gbar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Einstieg: Denk mal nach!</h2>
+      <p>Stell dir vor, du willst deine <strong>Schuhsammlung</strong> in einer Tabelle in deinem Heft erfassen. 
+	     Hierbei musst Du dich vor der Erstellung der Tabelle entscheiden, welche Merkmale (=Attribute) du von jedem Schuh aufnehmen möchtest, 
+		 z. B.  Nur die Marke? Die Farbe? Die Größe? Den Preis? Du musst die reale Welt (deine Schuhe) <strong>vereinfachen</strong> 
+		 und für den Computer (oder das Heft) <strong>modellieren</strong>.</p>
+      <p style="font-weight:bold;">Genau darum geht es hier: Wie wir Gegenstände aus der realen Welt mithilfe von Merkmalen so beschreiben, dass ein Computer mit den Daten arbeiten kann.</p>
+    </section>
+
+    <section>
+      <h2>Was bringt mir das? Der Schlüssel zur Objektivität</h2>
+      <div class="row cols-2">
+        <article class="card">
+          <h3>Ernährung</h3>
+          <p>Begriffe wie „gesund“ oder „zuckerarm“ werden erst durch Attribute wie <code>kcal/100g</code>, <code>Zuckergehalt (g)</code>, <code>Preis</code> vergleichbar. So kannst du Snacks <strong>fair gegenüberstellen</strong> und <strong>begründete</strong> Entscheidungen treffen.</p>
+          <span class="badge green">messbar</span>
+          <span class="badge yellow">vergleichbar</span>
+        </article>
+        <article class="card">
+          <h3>Psychologie/Sozialwissenschaft</h3>
+          <p>Konzepte wie „Konzentration“ oder „Stress“ misst man durch Attribute wie <code>Reaktionszeit (ms)</code>, <code>Puls</code>, <code>Anzahl der Fehler</code> oder <code>Punkte in einem Fragebogen</code>. Das macht Studien <strong>vergleichbar</strong>, <strong>nachvollziehbar</strong> und reduziert das reine <strong>Bauchgefühl</strong>.</p>
+          <span class="badge blue">objektiv</span>
+          <span class="badge red">nachvollziehbar</span>
+        </article>
+      </div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Die drei Zauberwörter der Modellierung</h2>
+      <div class="row cols-2">
+        <div class="card">
+          <h3>Attribut (Merkmal)</h3>
+          <p>Eine <em>Eigenschaft</em>, die ein Gegenstand beschreibt. → <code>Preis (€)</code>, <code>Größe (S/M/L)</code>, <code>Farbe</code>, <code>Marke</code>, <code>Material</code>.</p>
+          <p class="small muted"><strong>Tipp:</strong> Nutze <strong>messbare oder klar prüfbare</strong> Attribute (z.&nbsp;B. „Preis: 29,99 €“) statt vager Beschreibungen (z.&nbsp;B. „teuer“ oder „schick“).</p>
+        </div>
+        <div class="card">
+          <h3>Entität (einzelner Gegenstand, Synonyme: Instanz, Objekt)</h3>
+          <p>Ein <em>konkreter Gegenstand</em>, der durch Attribute beschrieben wird. → <em>Ein bestimmtes, einzelnes blaues T‑Shirt der Marke „CoolBrand“ in Größe M für 29,99 €.</em></p>
+        </div>
+        <div class="card">
+          <h3>Entitätstyp (Klasse von Gegenständen)</h3>
+          <p>Die <em>Art</em> oder <em>Klasse</em> von Gegenständen, die alle die gleichen Attribute haben. → <code>T‑Shirt</code>, <code>Hose</code>, <code>Schuh</code>.</p>
+        </div>
+      </div>
+	  <div class="card" style="margin-top:50px; ">
+          <h3>Jetzt seid Ihr dran! 👩‍💻👨‍💻 ⌚️ 5'  </h3>
+          <p>
+			Du und dein Nebensitzer nehmt euch den Gegenstand vor euch – nämlich euer <strong>Smartphone</strong>.
+			Nennt fünf Eigenschaften (Attribute), anhand derer man dein Smartphone beschreiben und mit dem Smartphone deines Nebensitzers vergleichen kann.
+		  </p>
+	</div>
+    </section>
+
+    <hr>
+
+    <section class="example-block">
+      <h2>Beispiele</h2>
+      <p class="muted small">Die folgenden Beispiele sind in einem gemeinsamen Block zusammengefasst – so erkennt man sofort, was zusammengehört.</p>
+
+      <h3>Online‑Shop für Klamotten</h3>
+      <div class="table-wrap" role="region" aria-label="Klamotten‑Tabelle (horizontal scrollbar auf kleinen Geräten)">
+        <table>
+          <thead>
+            <tr>
+              <th>ProduktID</th>
+              <th>Produktname</th>
+              <th>Kategorie</th>
+              <th>Größe</th>
+              <th>Farbe</th>
+              <th class="num">Preis (€)</th>
+              <th>Marke</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PR4711</td>
+              <td>Basic T‑Shirt</td>
+              <td>T‑Shirt</td>
+              <td>M</td>
+              <td>blau</td>
+              <td class="num">19,99</td>
+              <td>CoolBrand</td>
+            </tr>
+            <tr>
+              <td>PR0815</td>
+              <td>Jogginghose</td>
+              <td>Hose</td>
+              <td>L</td>
+              <td>schwarz</td>
+              <td class="num">39,99</td>
+              <td>SportMaster</td>
+            </tr>
+            <tr>
+              <td>PR1234</td>
+              <td>Kapuzenpullover</td>
+              <td>Pullover</td>
+              <td>S</td>
+              <td>grau</td>
+              <td class="num">49,99</td>
+              <td>UrbanWear</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><strong>Spalten = Attribute</strong>, <strong>Zeilen = Entitäten</strong>, <strong>erste Spalte = ID</strong>.</li>
+        <li>Eigene Spalten je Attribut erlauben <strong>Sortieren</strong>, <strong>Filtern</strong> und <strong>Vergleichen</strong>.</li>
+      </ul>
+
+      <h3>Psychologie: Konzentrationsexperiment</h3>
+      <div class="table-wrap" role="region" aria-label="Psychologie‑Tabelle (horizontal scrollbar auf kleinen Geräten)">
+        <table>
+          <thead>
+            <tr>
+              <th>TeilnehmerID</th>
+              <th>Alter</th>
+              <th>Versuchsgruppe</th>
+              <th class="num">Reaktionszeit (ms)</th>
+              <th class="num">Fehler (Anzahl)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>VP01</td>
+              <td>16</td>
+              <td>Musik</td>
+              <td class="num">512</td>
+              <td class="num">3</td>
+            </tr>
+            <tr>
+              <td>VP02</td>
+              <td>17</td>
+              <td>Still</td>
+              <td class="num">468</td>
+              <td class="num">1</td>
+            </tr>
+            <tr>
+              <td>VP03</td>
+              <td>16</td>
+              <td>Musik</td>
+              <td class="num">545</td>
+              <td class="num">2</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="small muted" style="margin-top:.5rem">Hinweise: <strong>IDs</strong> statt Namen (Datenschutz). Einheiten konsistent halten (ms, €, g). Größere Projekte auf mehrere Tabellen aufteilen (später in <em>Datenbanken</em> als <em>Beziehungen</em>).</div>
+    </section>
+
+    <hr>
+
+    <section>
+      <h2>Fazit</h2>
+      <p>Mit dem Dreischritt <strong>Attribut – Entität – Entitätstyp</strong> meisterst du den ersten Schritt, die reale Welt digital abzubilden. Eine sauber strukturierte Tabelle ist die Grundlage, um Daten <strong>auszuwerten</strong>, <strong>zu vergleichen</strong> und <strong>objektive Entscheidungen</strong> zu treffen – nicht nur in der Informatik, sondern in allen Fächern, die mit Daten arbeiten!</p>
+    </section>
+  </main>
+</body>
+</html>
