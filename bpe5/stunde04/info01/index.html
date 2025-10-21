@@ -1,16 +1,507 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe5 / stunde04 / info01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe5 / stunde04 / info01</h1>
-<p class="muted">Pfad: <code>bpe5/stunde04/info01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe5/stunde04/info01">https://beruflichegymnasium.pages.dev/bpe5/stunde04/info01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entscheidungen in der Programmierung</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e1e4e8;
+        }
+        
+        h3 {
+            color: #2c3e50;
+            margin: 20px 0 10px;
+        }
+        
+        .intro {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .explanation {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .concept-card {
+            background-color: #f8f9fa;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .condition {
+            background-color: #fff9c4;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .decision-branch {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+        
+        .branch {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            margin: 0 5px;
+            border-radius: 4px;
+        }
+        
+        .true-branch {
+            background-color: #e8f5e9;
+            border: 1px solid #4caf50;
+        }
+        
+        .false-branch {
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+        }
+        
+        .instructions {
+            background-color: #e3f2fd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            min-height: 50px;
+        }
+        
+        .example {
+            background-color: #e8eaf6;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #3f51b5;
+        }
+        
+        .multi-branch {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .case {
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #f3e5f5;
+            border: 2px solid #9c27b0;
+            position: relative;
+        }
+        
+        .case-condition {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #7b1fa2;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .case-condition::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: #7b1fa2;
+            font-weight: bold;
+        }
+        
+        .active {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            box-shadow: 0 0 0 2px #ffd54f;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1976d2;
+        }
+        
+        button:disabled {
+            background-color: #bdbdbd;
+            cursor: not-allowed;
+        }
+        
+        .step-counter {
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .code-example {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .keyword {
+            color: #f92672;
+        }
+        
+        .comment {
+            color: #75715e;
+        }
+        
+        .string {
+            color: #e6db74;
+        }
+        
+        .function {
+            color: #66d9ef;
+        }
+        
+        .indent-1 {
+            margin-left: 20px;
+        }
+        
+        .indent-2 {
+            margin-left: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Entscheidungen in der Programmierung</h1>
+        <p>Lerne einseitige, zweiseitige und mehrseitige Auswahlstrukturen mit Kara kennen</p>
+    </header>
+    
+    <div class="intro">
+        <h2>Was sind Entscheidungsstrukturen?</h2>
+        <p>In der Programmierung müssen Programme oft Entscheidungen treffen, basierend auf bestimmten Bedingungen. Diese Entscheidungen werden durch Auswahlstrukturen realisiert, die je nach Anzahl der möglichen Fälle unterschieden werden:</p>
+        <ul style="margin-left: 40px;">
+            <li><strong>Einseitige Auswahl:</strong> Eine Aktion wird nur ausgeführt, wenn eine Bedingung wahr ist</li>
+            <li><strong>Zweiseitige Auswahl:</strong> Es gibt zwei alternative Aktionen - eine für den Fall, dass die Bedingung wahr ist, und eine für den Fall, dass sie falsch ist</li>
+            <li><strong>Mehrseitige Auswahl:</strong> Es gibt mehrere mögliche Fälle mit jeweils eigenen Aktionen</li>
+        </ul>
+        <p>In diesem Lernmodul verwenden wir ein zusammenhängendes Beispiel mit dem Marienkäfer Kara: <strong>Kara erkundet einen Wald und sammelt Blätter</strong>.</p>
+    </div>
+    
+    <!-- Einseitige Auswahl -->
+    <div class="section">
+        <h2>1. Einseitige Auswahl</h2>
+        
+        <div class="explanation">
+            <p>Bei der einseitigen Auswahl wird eine Aktion nur dann ausgeführt, wenn eine bestimmte Bedingung erfüllt (wahr) ist. Wenn die Bedingung nicht erfüllt ist, passiert nichts.</p>
+            <p>In Python wird dies mit einer <strong>if-Anweisung</strong> realisiert.</p>
+        </div>
+        
+        <div class="example">
+            <div class="example-title">Beispiel mit Kara:</div>
+            <p>Kara bewegt sich durch den Wald. Wenn rechts ein Baum steht, legt Kara ein Blatt als Markierung ab.</p>
+        </div>
+        
+        <div class="concept-card">
+            <div class="condition" id="one-sided-condition">
+                Bedingung: Steht rechts ein Baum? (kara.treeRight())
+            </div>
+            
+            <div class="decision-branch">
+                <div class="branch true-branch">
+                    JA (True)
+                    <div class="instructions" id="one-sided-true">
+                        Kara legt ein Blatt ab (kara.putLeaf())
+                    </div>
+                </div>
+                <div class="branch false-branch">
+                    NEIN (False)
+                    <div class="instructions">
+                        <!-- Keine Aktion bei einseitiger Auswahl -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="code-example">
+            <span class="comment"># Einseitige Auswahl: Kara markiert Bäume rechts</span><br>
+            kara.move()<br>
+            <span class="keyword">if</span> kara.treeRight():<br>
+            <span class="indent-1">kara.putLeaf()</span><br>
+            kara.move()
+        </div>
+    </div>
+    
+    <!-- Zweiseitige Auswahl -->
+    <div class="section">
+        <h2>2. Zweiseitige Auswahl</h2>
+        
+        <div class="explanation">
+            <p>Bei der zweiseitigen Auswahl gibt es zwei alternative Aktionen - eine für den Fall, dass die Bedingung erfüllt ist, und eine für den Fall, dass sie nicht erfüllt ist.</p>
+            <p>In Python wird dies mit einer <strong>if-else-Anweisung</strong> realisiert.</p>
+        </div>
+        
+        <div class="example">
+            <div class="example-title">Beispiel mit Kara:</div>
+            <p>Kara erkundet den Wald. Wenn rechts ein Baum steht, dreht Kara sich nach links, um ihn zu umgehen. Andernfalls geht Kara geradeaus weiter.</p>
+        </div>
+        
+        <div class="concept-card">
+            <div class="condition" id="two-sided-condition">
+                Bedingung: Steht rechts ein Baum? (kara.treeRight())
+            </div>
+            
+            <div class="decision-branch">
+                <div class="branch true-branch">
+                    JA (True)
+                    <div class="instructions" id="two-sided-true">
+                        Kara dreht sich nach links (kara.turnLeft())
+                    </div>
+                </div>
+                <div class="branch false-branch">
+                    NEIN (False)
+                    <div class="instructions" id="two-sided-false">
+                        Kara geht geradeaus (kara.move())
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="code-example">
+            <span class="comment"># Zweiseitige Auswahl: Kara umgeht Bäume rechts</span><br>
+            <span class="keyword">if</span> kara.treeRight():<br>
+            <span class="indent-1">kara.turnLeft()</span><br>
+            <span class="indent-1">kara.move()</span><br>
+            <span class="keyword">else</span>:<br>
+            <span class="indent-1">kara.move()</span>
+        </div>
+    </div>
+    
+    <!-- Mehrseitige Auswahl -->
+    <div class="section">
+        <h2>3. Mehrseitige Auswahl</h2>
+        
+        <div class="explanation">
+            <p>Bei der mehrseitigen Auswahl gibt es mehrere mögliche Fälle, die jeweils unterschiedliche Aktionen auslösen. Wir kombinieren hier mehrere Sensoren für komplexere Entscheidungen.</p>
+            <p>In Python wird dies mit <strong>if-elif-else-Anweisungen</strong> realisiert.</p>
+        </div>
+        
+        <div class="example">
+            <div class="example-title">Beispiel mit Kara:</div>
+            <p>Kara erkundet den Wald systematisch. Je nachdem wo Bäume stehen, wählt Kara unterschiedliche Wege durch den Wald.</p>
+        </div>
+        
+        <div class="concept-card">
+            <div class="condition" id="multi-sided-condition">
+                Bedingung: Steht vorne ein Baum? (kara.treeFront())
+            </div>
+            
+            <div class="multi-branch">
+                <div class="case" id="case-if" style="background-color: #e8f5e9; border-color:green;">
+                    <div class="case-condition" style="color:green;">JA (True)</div>
+                    <div class="instructions">
+                        Kara dreht sich nach rechts (kara.turnRight())
+                    </div>
+                    
+                    <div style="margin-top: 15px;background-color: #f8f9fa;
+						border: 2px solid #e1e4e8;
+						border-radius: 8px;
+						padding: 15px;">
+                        <div class="condition">Bedingung: Steht rechts ein Baum? (kara.treeRight())</div>
+                        <div class="decision-branch">
+                            <div class="branch true-branch">
+                                JA (True)
+                                <div class="instructions">
+                                    Kara dreht sich nach links (kara.turnLeft())
+                                </div>
+                            </div>
+                            <div class="branch false-branch">
+                                NEIN (False)
+                                <div class="instructions">
+                                    Kara dreht sich nach rechts (kara.turnRight())
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="case" id="case-else" style="background-color: #ffebee; border-color:red;">
+                    <div class="case-condition" style="color:red;">NEIN (False)</div>
+                    <div class="instructions">
+                        Kara geht geradeaus (kara.move())
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="code-example">
+            <span class="comment"># Mehrseitige Auswahl: Kara navigiert durch den Wald</span><br>
+            <span class="keyword">if</span> kara.treeFront():<br>
+			<span class="indent-1">kara.turnRight()</span><br>
+            <span class="indent-1"><span class="keyword">if</span> kara.treeRight():</span><br>
+            <span class="indent-2">kara.turnLeft()</span><br>
+            <span class="indent-1"><span class="keyword">else</span>:</span><br>
+            <span class="indent-2">kara.turnRight()</span><br>
+            <span class="keyword">else</span>:<br>
+            <span class="indent-1">kara.move()</span>
+        </div>
+    </div>
+    
+    <div class="step-counter">
+        Interaktive Demonstration: <span id="current-step">1</span> von <span id="total-steps">3</span>
+    </div>
+    
+    <div class="controls">
+        <button id="prev-btn" disabled>Zurück</button>
+        <button id="next-btn">Weiter</button>
+        <button id="reset-btn">Zurücksetzen</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const steps = [
+                {
+                    highlight: ['one-sided-condition', 'one-sided-true'],
+                    explanation: 'Einseitige Auswahl: Kara prüft, ob rechts ein Baum steht. Nur wenn die Bedingung wahr ist, legt Kara ein Blatt ab. In Python: if kara.treeRight():'
+                },
+                {
+                    highlight: ['two-sided-condition', 'two-sided-true', 'two-sided-false'],
+                    explanation: 'Zweiseitige Auswahl: Kara entscheidet zwischen zwei Wegen - bei Baum rechts nach links drehen, sonst geradeaus gehen. In Python: if-else:'
+                },
+                {
+                    highlight: ['multi-sided-condition', 'case-if', 'case-else'],
+                    explanation: 'Mehrseitige Auswahl: Kara trifft komplexe Entscheidungen basierend auf mehreren Sensoren mit verschachtelten if-else-Anweisungen. In Python: if-elif-else:'
+                }
+            ];
+
+            let currentStep = 0;
+            const totalSteps = steps.length;
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const currentStepElement = document.getElementById('current-step');
+            const totalStepsElement = document.getElementById('total-steps');
+
+            totalStepsElement.textContent = totalSteps;
+
+            function updateVisualization() {
+                // Zurücksetzen aller Hervorhebungen
+                document.querySelectorAll('.condition, .instructions, .case').forEach(element => {
+                    element.classList.remove('active', 'highlight');
+                });
+
+                // Aktuellen Schritt hervorheben
+                if (currentStep >= 0 && currentStep < totalSteps) {
+                    const step = steps[currentStep];
+                    
+                    step.highlight.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.add('active', 'highlight');
+                        }
+                    });
+                    
+                    currentStepElement.textContent = currentStep + 1;
+                }
+
+                // Button-Status aktualisieren
+                prevBtn.disabled = currentStep === 0;
+                nextBtn.disabled = currentStep === totalSteps - 1;
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateVisualization();
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateVisualization();
+                }
+            });
+
+            resetBtn.addEventListener('click', function() {
+                currentStep = 0;
+                updateVisualization();
+            });
+
+            // Initialisierung
+            updateVisualization();
+        });
+    </script>
+</body>
+</html>
