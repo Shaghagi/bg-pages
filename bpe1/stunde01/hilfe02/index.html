@@ -1,16 +1,230 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe1 / stunde01 / hilfe02</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe1 / stunde01 / hilfe02</h1>
-<p class="muted">Pfad: <code>bpe1/stunde01/hilfe02</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe1/stunde01/hilfe02">https://beruflichegymnasium.pages.dev/bpe1/stunde01/hilfe02</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilfe zur relativen Adressierung</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1f6feb 0%, #0d47a1 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .tips-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            color: #1f6feb;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tip-card {
+            background-color: #e8f4ff;
+            border-left: 5px solid #1f6feb;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h3 {
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+        
+        .tip-card p {
+            margin-bottom: 0;
+        }
+        
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            min-width: 500px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f7ff;
+            color: #1f6feb;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f0f7ff;
+        }
+        
+        .formula-cell {
+            background-color: #fff8e1;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        .empty-cell {
+            background-color: #fff8e1;
+            height: 40px;
+        }
+        
+        .question-box {
+            background-color: #fff8e1;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #ff6f00;
+        }
+        
+        .question-box h3 {
+            color: #ff6f00;
+            margin-bottom: 15px;
+        }
+        
+        .question-box ul {
+            padding-left: 20px;
+        }
+        
+        .question-box li {
+            margin-bottom: 10px;
+        }
+        
+        .hint {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .hint h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #1f6feb;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hilfe zur relativen Adressierung</h1>
+        <p>Tipps und Denkanstöße für die Excel-Aufgabe</p>
+    </header>
+    
+    <div class="tips-container">
+        <h2>Schritt-für-Schritt Anleitung</h2>
+        
+        <div class="tip-card">
+            <h3><span class="step-number">1</span>Formel untersuchen</h3>
+            <p>Schau dir die Formel in der ersten Zelle (ID 1) genau an. Welche Zellen werden verknüpft und welche Rechnung wird durchgeführt?</p>
+        </div>
+        
+        <div class="tip-card">
+            <h3><span class="step-number">2</span>Formel kopieren</h3>
+            <p>Wie kopierst du in Excel eine Formel nach unten? Welche Methode kennst du? (Denke an das kleine Quadrat am Rahmen der Zelle)</p>
+        </div>
+        
+        <div class="tip-card">
+            <h3><span class="step-number">3</span>Veränderung beobachten</h3>
+            <p>Was passiert mit den Zellbezügen, wenn du die Formel in die nächste Zeile kopierst? Vergleiche die Formel in der ersten und zweiten Zeile.</p>
+        </div>
+        
+        <div class="tip-card">
+            <h3><span class="step-number">4</span>Muster erkennen</h3>
+            <p>Kannst du ein Muster erkennen, wie sich die Bezüge verändern, wenn du die Formel weiter nach unten kopierst?</p>
+        </div>
+    </div>
+        <div class="question-box">
+        <h3>Fragen, die dich unterstützen sollen für deine Erklärung an Herrn Dr. Benali</h3>
+        <p style="font-weight:bold; margin-bottom:15px;">
+			Beantworte diese Fragen in deinen eigenen Worten:
+		</p>
+        <ul>
+            <li>Was bedeutet "relative Adressierung" und wie funktioniert sie?</li>
+            <li>Warum ändern sich die Zellbezüge automatisch, wenn du die Formel kopierst?</li>
+            <li>Welchen Vorteil hat das bei großen Tabellen mit vielen Berechnungen?</li>
+            <li>Was wäre der Nachteil, wenn du jede Formel einzeln eingeben müsstest?</li>
+        </ul>
+    </div>
+    
+    <div class="hint">
+        <h3>Wichtiger Hinweis</h3>
+        <p>
+		<strong>Denke daran: </strong>
+		Bei der <strong>relativen Adressierung</strong> passen sich die Zellbezüge automatisch an die neue Position an! 
+		Das bedeutet, Excel merkt sich nicht die ursprünglichen Zelladressen, sondern die relative Position der Bezüge zur Formelzelle.</p>
+    </div>
+
+    
+    
+    <footer>
+        <p>Diese Hilfeseite enthält nur Denkanstöße - die Lösungswege musst du selbst herausfinden!</p>
+    </footer>
+</body>
+</html>
