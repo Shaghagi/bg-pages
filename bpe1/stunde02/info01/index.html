@@ -1,16 +1,158 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe1 / stunde02 / info01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe1 / stunde02 / info01</h1>
-<p class="muted">Pfad: <code>bpe1/stunde02/info01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe1/stunde02/info01">https://beruflichegymnasium.pages.dev/bpe1/stunde02/info01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Funktionen</title>
+  <style>
+    :root{
+      --primary:#2d6cdf; --secondary:#0ea5e9; --accent:#22c55e;
+      --light:#f7f7fb; --dark:#0f172a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(180deg,var(--light),#fff 40%);
+      color:var(--dark); display:flex; align-items:flex-start; justify-content:center;
+    }
+    .wrap{
+      width:min(800px, 95vw);
+      margin:2rem auto 4rem; padding:1.25rem;
+    }
+    .header{
+      text-align:center; margin-bottom:1rem;
+      padding:1rem 1.25rem; border-radius:18px;
+      background:#fff; box-shadow:0 6px 30px rgba(15,23,42,.08);
+    }
+    .header h1{margin:.2rem 0 .4rem; font-size:clamp(1.2rem,2.2vw,1.6rem)}
+    .header p{margin:0; opacity:.8; font-size:.95rem}
+    .panel{
+      background:#fff; border-radius:22px; padding:1rem;
+      box-shadow:0 10px 40px rgba(15,23,42,.10);
+    }
+    .controls{
+      display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; justify-content:center;
+      margin-bottom:.75rem;
+    }
+    .btn, .file{
+      border:1px solid #e5e7eb; border-radius:12px; padding:.6rem .9rem; background:#fff;
+      font-weight:600; cursor:pointer;
+      box-shadow:0 2px 10px rgba(0,0,0,.04);
+    }
+    .btn:active{transform:translateY(1px)}
+    .note{font-size:.9rem; text-align:center; opacity:.75; margin-top:.5rem}
+    .canvas-wrap{
+      width:100%; position:relative; overflow:hidden; border-radius:18px;
+      background: repeating-conic-gradient(#f3f4f6 0% 25%, #fafafa 0% 50%) 0 0/24px 24px;
+      outline:1px solid #eef2f7;
+    }
+    canvas{display:block; width:80%; height:auto;}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="header">
+      <h1 style="color:blue;">Funktionen in Excel</h1>
+    
+    </section>
+
+    <section class="panel">
+
+
+      <div class="canvas-wrap">
+        <canvas id="board" aria-label="Zeichenfläche mit dem gerenderten Bild"></canvas>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    // >>> Bildquelle hier anpassen, falls die Datei anders heißt/liegt:
+    const IMG_SRC = "EA2_Funktionen.PNG";
+
+    const canvas = document.getElementById("board");
+    const ctx = canvas.getContext("2d");
+    const fileInput = document.getElementById("fileInput");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const fitBtn = document.getElementById("fitBtn");
+
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    img.addEventListener("load", () => render());
+    img.addEventListener("error", () => drawFallback());
+    img.src = IMG_SRC;
+
+    // Responsives Rendern mit DPR-Schärfe
+    function render() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+      const wrap = canvas.parentElement;         // sichtbare Breite
+      const maxW = wrap.clientWidth;
+      const aspect = img.naturalHeight / img.naturalWidth;
+
+      const cssW = maxW;                         // Canvas soll volle Breite nutzen
+      const cssH = Math.round(cssW * aspect);
+
+      // CSS-Größe (sichtbar)
+      canvas.style.width  = cssW + "px";
+      canvas.style.height = cssH + "px";
+
+      // Interne Pixelgröße (für Schärfe)
+      canvas.width  = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
+
+      // Zeichenfläche vorbereiten
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.imageSmoothingEnabled = true;
+
+      // Skaliert zeichnen (Koordinaten in CSS-Pixel)
+      ctx.scale(dpr, dpr);
+      ctx.drawImage(img, 0, 0, cssW, cssH);
+    }
+
+    function drawFallback() {
+      const wrap = canvas.parentElement;
+      canvas.width = wrap.clientWidth * (window.devicePixelRatio || 1);
+      canvas.height = 400 * (window.devicePixelRatio || 1);
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0,0, canvas.width, canvas.height);
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "600 20px system-ui, Segoe UI, Roboto, Arial, sans-serif";
+      ctx.fillText("Bild konnte nicht geladen werden.", 20, 40);
+      ctx.font = "16px system-ui, Segoe UI, Roboto, Arial, sans-serif";
+      ctx.fillText("Bitte stelle sicher, dass EA2_Funktionen.PNG im selben Ordner liegt", 20, 70);
+    }
+
+    // Dateiwechsel durch den Nutzer
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      img.src = url;
+    });
+
+    // Download des Canvas
+    downloadBtn.addEventListener("click", () => {
+      const a = document.createElement("a");
+      a.download = "canvas-export.png";
+      a.href = canvas.toDataURL("image/png");
+      a.click();
+    });
+
+    // manuelles Neu-Fitten
+    fitBtn.addEventListener("click", render);
+
+    // Re-Render bei Fensteränderung (debounced)
+    let rAF = null;
+    window.addEventListener("resize", () => {
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(render);
+    });
+  </script>
+</body>
+</html>
