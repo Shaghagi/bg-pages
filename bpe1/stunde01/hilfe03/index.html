@@ -1,16 +1,263 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe1 / stunde01 / hilfe03</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe1 / stunde01 / hilfe03</h1>
-<p class="muted">Pfad: <code>bpe1/stunde01/hilfe03</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe1/stunde01/hilfe03">https://beruflichegymnasium.pages.dev/bpe1/stunde01/hilfe03</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilfe zur Formelanpassung und Umsatzsteuerberechnung</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f7ff;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1f6feb 0%, #0d47a1 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .task-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            color: #1f6feb;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .part {
+            margin-bottom: 30px;
+        }
+        
+        .part h3 {
+            color: #0d47a1;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #0d47a1;
+        }
+        
+        .tip-card {
+            background-color: #e8f4ff;
+            border-left: 5px solid #1f6feb;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .tip-card h4 {
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+        
+        .tip-card p {
+            margin-bottom: 0;
+        }
+        
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            min-width: 500px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f7ff;
+            color: #1f6feb;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .formula-cell {
+            background-color: #fff8e1;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        .empty-cell {
+            background-color: #fff8e1;
+            height: 40px;
+        }
+        
+        .blue-area {
+            background-color: #e3f2fd;
+        }
+        
+        .tax-cell {
+            background-color: #e8f5e9;
+        }
+        
+        .important-note {
+            background-color: #fff8e1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #ff6f00;
+        }
+        
+        .important-note h3 {
+            color: #ff6f00;
+            margin-bottom: 15px;
+        }
+        
+        .hint {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #4caf50;
+        }
+        
+        .hint h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #1f6feb;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+        }
+        
+        .formula-example {
+            font-family: 'Courier New', monospace;
+            background-color: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hilfe zur Formelanpassung und Umsatzsteuerberechnung</h1>
+        <p>Tipps und Denkanstöße für die Excel-Aufgabe</p>
+    </header>
+    
+    <div class="task-container">
+        <h2>Aufgabenstellung</h2>
+        
+        <div class="part">
+            <h3>Teil A: Formel anpassen</h3>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">1</span>Formel analysieren</h4>
+                <p>Schau dir die vorhandene Formel in der Spalte "Gesamt (€)" genau an. Welche Zellen werden verknüpft und welche Rechnung wird durchgeführt?</p>
+            </div>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">2</span>Kopierverhalten verstehen</h4>
+                <p>Was passiert, wenn du die Formel in den blauen Bereich kopierst? Warum wird möglicherweise nicht der richtige Wert angezeigt?</p>
+            </div>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">3</span>Zellbezüge anpassen</h4>
+                <p>Welche Art von Zellbezug könnte notwendig sein, damit die Formel korrekt funktioniert, wenn sie kopiert wird?
+				<br>  Hinweis 1: Ein absoluter Zellbezug in der Form $A$1 ist nicht notwendig!
+				<br> Hinweis 2: Sie kopieren die Formel von Spalte E in Spalte F. Die Spalten in den Zellbezügen in =C52*D52 dürfen sich nicht mitbewegen.
+				</p>
+            </div>
+        </div>
+        
+        <div class="part">
+            <h3>Teil B: Umsatzsteuer berechnen</h3>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">1</span>Prozentwertberechnung</h4>
+                <p>Erinnere dich an die Prozentwertformel: <span class="formula-example">Prozentwert = Grundwert × Prozentsatz</span>. Wie könnte diese Formel in Excel aussehen?</p>
+            </div>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">2</span>Umsatzsteuerbetrag</h4>
+                <p>Welcher Wert ist der Grundwert und welcher der Prozentsatz für die Berechnung des Umsatzsteuerbetrags?</p>
+            </div>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">3</span>Zellbezug zum Umsatzsteuersatz</h4>
+                <p>Wie kannst du in der Formel auf den Umsatzsteuersatz in Zelle C56 verweisen, damit die Formel auch nach dem Kopieren immer diesen Wert verwendet?</p>
+            </div>
+            
+            <div class="tip-card">
+                <h4><span class="step-number">4</span>Bruttobetrag berechnen</h4>
+                <p>Wie setzt sich der Bruttobetrag zusammen? Welche Werte musst du addieren?</p>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="important-note">
+        <h3>Wichtige Hinweise</h3>
+        <p>Für Teil A: Denke darüber nach, welche Art von Zellbezug (absolut, relativ oder gemischt) notwendig ist, damit die Formel korrekt kopiert werden kann.</p>
+        <p>Für Teil B: Beachte, dass der Umsatzsteuersatz nur in einer Zelle (C56) steht und in allen Formeln verwendet werden soll.</p>
+    </div>
+    
+    <div class="hint">
+        <h3>Formel-Tipps</h3>
+        <p>Denke an die Prozentrechnung: Der Umsatzsteuerbetrag wird berechnet als <span class="formula-example">Nettopreis × Umsatzsteuersatz</span>.</p>
+        <p>Der Bruttobetrag ist die Summe aus <span class="formula-example">Nettopreis + Umsatzsteuerbetrag</span>.</p>
+    </div>
+    
+    <footer>
+        <p>Diese Hilfeseite enthält nur Denkanstöße - die Lösungswege musst du selbst herausfinden!</p>
+    </footer>
+</body>
+</html>
