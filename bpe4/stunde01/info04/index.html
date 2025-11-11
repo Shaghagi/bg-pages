@@ -1,16 +1,417 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe4 / stunde01 / info04</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe4 / stunde01 / info04</h1>
-<p class="muted">Pfad: <code>bpe4/stunde01/info04</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe4/stunde01/info04">https://beruflichegymnasium.pages.dev/bpe4/stunde01/info04</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schaltbrett & Drag and Drop Merge V4</title>
+  <style>
+    /* Allgemeine Styles (V4MergeUpdate: Zusammengeführte Basis-Stile) */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; /* aus dem Schaltbrett-Code */
+      margin: 20px;
+      background-color: #E3E2DF;
+    }
+    
+    /* V4MergeUpdate: Dragbereich (schwarz umrandet, grauer Hintergrund) – steht jetzt oberhalb der h1 */
+    #dragItems {  
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap; /* V3Änderungen: ermöglicht mehrzeilige Anordnung */
+      gap: 20px;
+      border: 2px solid black; /* V2Änderungen */
+      background-color: grey;  /* V2Änderungen */
+      padding: 10px;           /* V2Änderungen */
+      height: 230px;           /* V3Änderungen: Feste Höhe */
+	  width: 90%;
+    }
+    
+    /* V4MergeUpdate: Anpassung der draggable Größe und Schrift an die Schalterbreite */
+    .draggable {
+      width: 50px;  /* angepasst */
+      height: 100px; /* angepasst */
+      background-color: lightgrey;
+      border: 2px dashed #EE4C7C;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: move;
+      font-size: 24px; /* angepasst */
+      font-weight: bold;
+      color: black;
+    }
+    h2 {
+      width: 91%;
+      text-align: left;
+      color: #EE4C7C;
+      
+    }
+    
+    /* Styles für den Binär-Schaltbrett-Bereich */
+    h1 {
+      font-size: 36px;
+      color: black;
+      margin-bottom: 0px;
+    }
+    
+    p {
+      font-size: 16px;
+      margin: 5px;
+      padding: 5px;
+    }
+    
+    #counter-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    #counter-container label {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+    
+    #counter-input {
+      font-size: 24px;
+      width: 80px;
+      text-align: center;
+    }
+    
+    .board {
+      background-color: #8B4513; /* Holzfarbe */
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: inset 0 0 10px #000;
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .bulb {
+      width: 50px;
+      height: 50px;
+      background-color: #555;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+    
+    .bulb.on {
+      background-color: yellow;
+      box-shadow: 0 0 20px yellow, inset 0 0 10px #fff;
+    }
+    
+    .switch {
+      width: 50px;
+      height: 50px;
+      font-size: 32px;
+      background-color: #8B4513; /* Gleiche Farbe wie das Holzbrett */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px #555;
+      text-align: center;
+    }
+    
+    button:active {
+      box-shadow: 0 2px #333;
+      transform: translateY(2px);
+    }
+    
+    /* V4MergeUpdate: Neuer Container für Switches und deren zugehörige Dropzonen */
+    .switch-container {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .switch-drop-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    /* V2Änderungen: Dropzone Wrapper (bleibt unverändert) */
+    .dropzone-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      position: relative; /* V4MergeUpdate: für absolute Positionierung der neuen Elemente */
+    }
+    
+    .dropzone {
+      width: 50px;
+      height: 100px;
+      border: 2px dashed #EE4C7C;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .dropzone-label {
+      margin-top: 5px;
+      font-weight: bold;
+      font-size: 24px;
+      color: green;
+    }
+    
+    /* V4MergeUpdate: Neue CSS-Regeln für die zusätzlichen Texte */
+    .prefix-dropzone {
+      position: absolute;
+      left: -150px; /* Abstand nach links, ohne die Dropzone zu verschieben */
+      top: 20%;
+      transform: translateY(-50%);
+      font-weight: bold;
+	  color: #EE4C7C;
+    }
+    .prefix-label {
+      position: absolute;
+      left: -150px; /* gleicher Abstand */
+	  top: 80%;
+      /*bottom: -1px;  etwas unterhalb der Dropzone, passend zur Labelposition */
+      font-weight: bold;
+	  color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mögliche Stellenwerte (Auswahl) </h2>
+  <!-- V4MergeUpdate: Dragbereich mit draggable Items überhalb der h1 -->
+  <div id="dragItems">
+    <!-- V3Änderungen: 20 draggable Elemente mit vorgegebenen Beschriftungen, data-target nur für 8 korrekte Elemente -->
+    <div class="draggable" id="rectangle1" draggable="true" data-target="dropzone0">1</div>
+    <div class="draggable" id="rectangle2" draggable="true" data-target="dropzone1">2</div>
+    <div class="draggable" id="rectangle4" draggable="true" data-target="dropzone2">4</div>
+    <div class="draggable" id="rectangle8" draggable="true" data-target="dropzone3">8</div>
+    <div class="draggable" id="rectangle16" draggable="true" data-target="dropzone4">16</div>
+    <div class="draggable" id="rectangle32" draggable="true" data-target="dropzone5">32</div>
+    <div class="draggable" id="rectangle64" draggable="true" data-target="dropzone6">64</div>
+    <div class="draggable" id="rectangle128" draggable="true" data-target="dropzone7">128</div>
+    <div class="draggable" id="rectangle12" draggable="true">12</div>
+    <div class="draggable" id="rectangle18" draggable="true">18</div>
+    <div class="draggable" id="rectangle36" draggable="true">36</div>
+    <div class="draggable" id="rectangle127" draggable="true">127</div>
+    <div class="draggable" id="rectangle63" draggable="true">63</div>
+    <div class="draggable" id="rectangle31" draggable="true">31</div>
+    <div class="draggable" id="rectangle3" draggable="true">3</div>
+    <div class="draggable" id="rectangle196" draggable="true">196</div>
+    <div class="draggable" id="rectangle7" draggable="true">7</div>
+    <div class="draggable" id="rectangle256" draggable="true">256</div>
+    <div class="draggable" id="rectangle0" draggable="true">0</div>
+    <div class="draggable" id="rectangle80" draggable="true">80</div>
+  </div>
+  
+  <h1>Schaltbrett</h1>
+  <p>8 Schalter (= 1 Byte)</p>
+  
+  <div id="counter-container">
+    <label for="counter-input">Dezimalzahl:</label>
+    <input disabled type="number" id="counter-input" value="0" min="0" max="255">
+  </div>
+  
+  <div class="board">
+    <div class="bulb" id="bulb1"></div>
+    <div class="bulb" id="bulb2"></div>
+    <div class="bulb" id="bulb3"></div>
+    <div class="bulb" id="bulb4"></div>
+    <div class="bulb" id="bulb5"></div>
+    <div class="bulb" id="bulb6"></div>
+    <div class="bulb" id="bulb7"></div>
+    <div class="bulb" id="bulb8"></div>
+  </div>
+  
+  <!-- V4MergeUpdate: Neuer Container für Switches und zugehörige Dropzonen (Mapping: switch1 → dropzone7, …, switch8 → dropzone0) -->
+  <div class="switch-container">
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch1">0</button>
+      <div class="dropzone-wrapper">
+        <!-- V4MergeUpdate: Prefix für Dropzone -->
+        <span class="prefix-dropzone"><strong>Stellenwert<br>(n-te Stelle)</strong></span>
+        <div class="dropzone" id="dropzone7"></div>
+        <!-- V4MergeUpdate: Prefix für Label -->
+        <span class="prefix-label"><strong>n-te Stelle</strong></span>
+        <div class="dropzone-label">7</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch2">0</button>
+      <div class="dropzone-wrapper">
+    
+        <div class="dropzone" id="dropzone6"></div>
+        
+        <div class="dropzone-label">6</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch3">0</button>
+      <div class="dropzone-wrapper">
+       
+        <div class="dropzone" id="dropzone5"></div>
+        
+        <div class="dropzone-label">5</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch4">0</button>
+      <div class="dropzone-wrapper">
+       
+        <div class="dropzone" id="dropzone4"></div>
+        
+        <div class="dropzone-label">4</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch5">0</button>
+      <div class="dropzone-wrapper">
+       
+        <div class="dropzone" id="dropzone3"></div>
+       
+        <div class="dropzone-label">3</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch6">0</button>
+      <div class="dropzone-wrapper">
+        
+        <div class="dropzone" id="dropzone2"></div>
+        
+        <div class="dropzone-label">2</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch7">0</button>
+      <div class="dropzone-wrapper">
+       
+        <div class="dropzone" id="dropzone1"></div>
+       
+        <div class="dropzone-label">1</div>
+      </div>
+    </div>
+    <div class="switch-drop-wrapper">
+      <button class="switch" id="switch8">0</button>
+      <div class="dropzone-wrapper">
+       
+        <div class="dropzone" id="dropzone0"></div>
+       
+        <div class="dropzone-label">0</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    /* V4MergeUpdate: Drag and Drop Funktionalität */
+    const draggables = document.querySelectorAll('.draggable');
+    draggables.forEach(draggable => {
+      draggable.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', e.target.id);
+      });
+    });
+    
+    /* V4MergeUpdate: Dropzonen (unter den Switches) konfigurieren */
+    const dropzones = document.querySelectorAll('.dropzone');
+    dropzones.forEach(dropzone => {
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault(); // Notwendig, um das Ablegen zu erlauben
+      });
+    
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggableId = e.dataTransfer.getData('text/plain');
+        const draggableElement = document.getElementById(draggableId);
+    
+        // Prüfen, ob es die richtige Dropzone ist
+        const targetDropzone = draggableElement.getAttribute('data-target');
+        if (e.currentTarget.id === targetDropzone) {
+          // Richtige Dropzone: grün einfärben
+          draggableElement.style.backgroundColor = 'lightgreen';
+        } else {
+          // Falsche Dropzone: rot einfärben
+          draggableElement.style.backgroundColor = 'red';
+        }
+    
+        // Element in die Dropzone verschieben
+        e.currentTarget.appendChild(draggableElement);
+      });
+    });
+    
+    /* V4MergeUpdate: Drag-Bereich als Dropzone konfigurieren, um Elemente zurück in den Dragbereich zu ziehen */
+    const dragArea = document.getElementById('dragItems');
+    dragArea.addEventListener('dragover', (e) => {
+      e.preventDefault(); // Erlaubt das Ablegen
+    });
+    
+    dragArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const draggableId = e.dataTransfer.getData('text/plain');
+      const draggableElement = document.getElementById(draggableId);
+      
+      // V2Änderungen: Hintergrundfarbe beim Rückziehen in den Dragbereich zurücksetzen
+      draggableElement.style.backgroundColor = 'lightgrey';
+      dragArea.appendChild(draggableElement);
+    });
+    
+    /* V3Änderungen: Shuffle der draggable Elemente im Dragbereich beim Laden der Seite */
+    window.addEventListener('load', () => {
+      const dragContainer = document.getElementById('dragItems');
+      const itemsArray = Array.from(dragContainer.children);
+      // V3Änderungen: Shuffle-Funktion (Fisher-Yates-Algorithmus)
+      for (let i = itemsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [itemsArray[i], itemsArray[j]] = [itemsArray[j], itemsArray[i]];
+      }
+      // V3Änderungen: Elemente in zufälliger Reihenfolge in den Dragbereich einfügen
+      itemsArray.forEach(item => dragContainer.appendChild(item));
+    });
+    
+    /* Binary Switch Board Code */
+    var switchCollect = document.getElementsByClassName('switch');
+    
+    for (var i = 0; i < switchCollect.length; i++) {
+      switchCollect[i].addEventListener('click', function (e){ eventHandler(e); });
+    }
+    
+    function eventHandler(event){
+      let id = event.target.id;
+      switchNmb(id);
+      updateBulb(id);
+      convertBulbsToDez();
+    }
+    
+    function switchNmb(id) {
+      let inputValue = document.getElementById(id).innerHTML;
+      if(inputValue === '0'){
+        inputValue = '1';
+      }
+      else{
+        inputValue = '0';
+      }
+      document.getElementById(id).innerHTML = inputValue;
+    }
+    
+    function updateBulb(id) {
+      let bulbInFocus = 'bulb' + id.slice(-1); // z.B. switch1 → bulb1
+      let inputValue = document.getElementById(id).innerHTML;
+      if(inputValue === '1'){
+        document.getElementById(bulbInFocus).classList.add('on');
+      }
+      else {
+        document.getElementById(bulbInFocus).classList.remove('on');
+      }	
+    }
+    
+    function convertBulbsToDez(){
+      let binaryNmb = "";
+      for (const listItem of switchCollect) {
+        binaryNmb += listItem.innerHTML;
+      }
+      document.getElementById('counter-input').value = parseInt(binaryNmb,2);
+    }
+  </script>
+</body>
+</html>
