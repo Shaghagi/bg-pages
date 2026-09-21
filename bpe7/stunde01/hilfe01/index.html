@@ -1,16 +1,302 @@
-﻿<!doctype html>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>bpe7 / stunde01 / hilfe01</title>
-<style>
-  body{font:16px/1.6 system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:24px;color:#0f172a}
-  h1{font-size:clamp(22px,4vw,30px);margin:0 0 12px}
-  .muted{color:#475569}
-  a{color:#0ea5e9;text-decoration:none}
-</style>
-<h1>bpe7 / stunde01 / hilfe01</h1>
-<p class="muted">Pfad: <code>bpe7/stunde01/hilfe01</code></p>
-<p><a href="https://beruflichegymnasium.pages.dev/bpe7/stunde01/hilfe01">https://beruflichegymnasium.pages.dev/bpe7/stunde01/hilfe01</a></p>
-<nav style="margin-top:16px">
-  <a href="/">Start</a>
-</nav>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestufte Hilfe – Geschwindigkeitskontrolle</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #1f2933;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 0 20px 40px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .intro {
+      background: white;
+      border-left: 5px solid #4f6f8f;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .hilfe {
+      background: white;
+      border: 1px solid #d7dee5;
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .hilfe h2 {
+      margin-top: 0;
+      font-size: 1.35rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+    }
+
+    th, td {
+      border: 1px solid #cfd8df;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #eef2f5;
+    }
+
+    code, pre {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    pre {
+      background: #f7f9fb;
+      border: 1px solid #d7dee5;
+      padding: 14px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+    }
+
+    .button-row {
+      margin: 12px 0 26px;
+    }
+
+    button {
+      background: #4f6f8f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    button:hover {
+      background: #3e5d79;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .tip {
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: #fff8df;
+      border-left: 5px solid #d0a223;
+      border-radius: 6px;
+    }
+
+    .index-box {
+      margin: 16px 0;
+      padding: 14px;
+      background: #f7f9fb;
+      border: 1px solid #d7dee5;
+      border-radius: 8px;
+      overflow-x: auto;
+      white-space: pre;
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    .check {
+      margin-top: 15px;
+      padding-left: 20px;
+    }
+
+    .small-note {
+      color: #52606d;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.55rem;
+      }
+
+      th, td {
+        padding: 8px;
+        font-size: 0.92rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Gestufte Hilfe: Geschwindigkeitskontrolle</h1>
+
+    <div class="intro">
+      <strong>Aufgabe:</strong><br>
+      Wird die zulässige Höchstgeschwindigkeit nicht überschritten, soll ein
+      <code>:-)</code> Smiley ausgegeben werden.<br><br>
+
+      Überschreitet der Fahrer die zulässige Höchstgeschwindigkeit um weniger als
+      fünf Kilometer pro Stunde, soll ein <code>:-/</code> Smiley ausgegeben werden.<br><br>
+
+      Bei einer höheren Überschreitung soll ein <code>:-(</code> Smiley ausgegeben werden.
+      Die Smileys sind in einem Array gespeichert.
+    </div>
+
+    <section class="hilfe" id="hilfe1">
+      <h2>Hilfe 1: Teile die Geschwindigkeiten in drei Fälle ein</h2>
+
+      <p>
+        Die zulässige Höchstgeschwindigkeit beträgt <strong>30 km/h</strong>.
+        Überlege zuerst, zu welchem Fall eine gemessene Geschwindigkeit gehört.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Gemessene Geschwindigkeit</th>
+            <th>Fall</th>
+            <th>Smiley</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>bis einschließlich 30 km/h</td>
+            <td>Höchstgeschwindigkeit nicht überschritten</td>
+            <td><code>:-)</code></td>
+          </tr>
+          <tr>
+            <td>mehr als 30, aber weniger als 35 km/h</td>
+            <td>Überschreitung um weniger als 5 km/h</td>
+            <td><code>:-/</code></td>
+          </tr>
+          <tr>
+            <td>ab 35 km/h</td>
+            <td>höhere Überschreitung</td>
+            <td><code>:-(</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <strong>Achtung Grenzfall:</strong><br>
+        35 km/h sind genau 5 km/h zu schnell. Deshalb gehört 35 km/h
+        <strong>nicht mehr</strong> zum mittleren Fall.
+      </div>
+    </section>
+
+    <div class="button-row" id="buttonRow2">
+      <button type="button" onclick="showHelp(2)">Hilfe 2 anzeigen</button>
+    </div>
+
+    <section class="hilfe hidden" id="hilfe2">
+      <h2>Hilfe 2: Finde die richtigen Array-Indizes</h2>
+
+      <p>Die Smileys sind in folgendem Array gespeichert:</p>
+
+      <pre><code>smiley = [":-)", ":-/", ":-("]</code></pre>
+
+      <p>
+        Denke daran: Python beginnt beim Zählen der Array-Positionen mit
+        <strong>0</strong>.
+      </p>
+
+      <div class="index-box">Index:       0       1       2
+             |       |       |
+smiley = [ ":-)",  ":-/",  ":-(" ]</div>
+
+      <p>
+        Überlege nun: Welcher Index gehört zum ersten, zweiten und dritten Fall?
+      </p>
+
+      <p class="small-note">
+        Tipp: <code>smiley[0]</code> liefert den ersten Smiley im Array.
+      </p>
+    </section>
+
+    <div class="button-row hidden" id="buttonRow3">
+      <button type="button" onclick="showHelp(3)">Hilfe 3 anzeigen</button>
+    </div>
+
+    <section class="hilfe hidden" id="hilfe3">
+      <h2>Hilfe 3: Ergänze die Verzweigung</h2>
+
+      <p>
+        Jetzt kannst du die Bedingungen und die Array-Indizes in das Codegerüst einsetzen:
+      </p>
+
+      <pre><code>if gemessene_geschwindigkeit &lt;= ______:
+    print(smiley[_____])
+else:
+    if gemessene_geschwindigkeit &lt; ______:
+        print(smiley[_____])
+    else:
+        print(smiley[_____])</code></pre>
+
+      <p><strong>Teste deinen Algorithmus anschließend mit:</strong></p>
+
+      <ul class="check">
+        <li><code>30 km/h</code> → Welcher Smiley?</li>
+        <li><code>33 km/h</code> → Welcher Smiley?</li>
+        <li><code>35 km/h</code> → Welcher Smiley?</li>
+        <li><code>37 km/h</code> → Welcher Smiley?</li>
+      </ul>
+
+      <div class="tip">
+        <strong>Kontrollfrage:</strong><br>
+        Passt dein Programm auch für genau <code>30 km/h</code> und genau
+        <code>35 km/h</code>?
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function showHelp(number) {
+      if (number === 2) {
+        document.getElementById("hilfe2").classList.remove("hidden");
+        document.getElementById("buttonRow2").classList.add("hidden");
+        document.getElementById("buttonRow3").classList.remove("hidden");
+        document.getElementById("hilfe2").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+
+      if (number === 3) {
+        document.getElementById("hilfe3").classList.remove("hidden");
+        document.getElementById("buttonRow3").classList.add("hidden");
+        document.getElementById("hilfe3").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    }
+  </script>
+</body>
+</html>
